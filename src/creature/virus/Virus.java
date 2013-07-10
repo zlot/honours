@@ -1,10 +1,7 @@
 package creature.virus;
 
-import java.util.ArrayList;
-
 import creature.*;
 import processing.core.*;
-
 
 // Strategy Pattern?
 @SuppressWarnings("static-access")
@@ -12,8 +9,6 @@ public class Virus extends Creature {
 	  
 	  public Virus() {
 		  pos = new PVector(p.random(width), p.random(height));
-		  
-		  setBehaviour(new MoveBehaviour(pos));
 		  createParts();
 	  }
 	  

@@ -2,6 +2,7 @@ package creature.virus;
 
 import processing.core.*;
 import creature.Body;
+import creature.MoveBehaviour;
 
 public class VirusBody extends Body {
 	
@@ -10,6 +11,7 @@ public class VirusBody extends Body {
 	public VirusBody(PVector _pos, int _w) {
 		pos = _pos;
 		w = _w;
+		setBehaviour(new MoveBehaviour(_pos));
 	}
 
 	@Override

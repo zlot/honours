@@ -33,11 +33,14 @@ public class PopulationDirector extends PClass {
 	
 	public void update() {
 		/* Update all behaviours */
-		// for all creatures,
-		for(Creature c : creatures)
-			// get behaviourManagers,
-			for(Behaviour b : c.getBehaviourManager().getBehaviours())
-				b.update();
+		for(Creature c : creatures) {
+			// update body behaviour
+			c.getBody().update();
+			c.getLimbManager().update();
+			// update limb behaviour
+			//for(Limb l : c.getLimbManager().getLimbs())
+				//l.getBehaviour().update();
+		}
 		
 		/* Draw all creatures */
 		for(Creature c : creatures)

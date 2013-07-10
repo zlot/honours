@@ -19,7 +19,6 @@ public class CopyOfVirus extends Creature {
 		  pos = new PVector(p.random(width), p.random(height));
 		  w = (int) p.random(70, 130);
 
-		  setBehaviour(new MoveBehaviour(pos));
 		  createTentacles();
 	  }
 	  

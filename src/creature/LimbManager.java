@@ -17,6 +17,13 @@ public abstract class LimbManager extends PClass {
 	
 	public abstract void draw();
 	
+	
+	public void update() {
+		for(Limb l : limbs)
+			l.update();
+	}
+	
+	
 	public abstract void createLimbs();
 	
 //	public void assignBehaviour(Behaviour b) {

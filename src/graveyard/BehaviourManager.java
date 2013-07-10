@@ -1,6 +1,9 @@
-package creature;
+package graveyard;
 
 import java.util.ArrayList;
+
+import creature.Behaviour;
+import creature.Creature;
 import loader.PClass;
 
 public class BehaviourManager extends PClass {
