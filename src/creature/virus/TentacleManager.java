@@ -7,6 +7,8 @@ public class TentacleManager extends LimbManager {
 
 	public TentacleManager(Creature _c) {
 		super(_c);
+		
+		createLimbs();
 	}
 
 	@Override
@@ -32,9 +34,10 @@ public class TentacleManager extends LimbManager {
 	    	tPos = new PVector(r * p.cos(ang), r * p.sin(ang));
 	    	Tentacle t = new Tentacle(tPos, ang);
 	      
-	    	// add to tentancles
+	    	// add to tentacles
 	    	limbs.add(t);
 	    }
 	}
+	
 
 }

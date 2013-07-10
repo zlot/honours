@@ -27,7 +27,6 @@ public class Virus extends Creature {
 		  body = new VirusBody(pos, w);
 		  
 		  limbManager = new TentacleManager(this); // w/2 is radius
-		  limbManager.createLimbs();
 	  }
 	  
 	}
