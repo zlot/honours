@@ -34,17 +34,34 @@ public class PopulationDirector extends PClass {
 	public void update() {
 		/* Update all behaviours */
 		for(Creature c : creatures) {
-			// update body behaviour
 			c.getBody().update();
 			c.getLimbManager().update();
-			// update limb behaviour
-			//for(Limb l : c.getLimbManager().getLimbs())
-				//l.getBehaviour().update();
 		}
-		
 		/* Draw all creatures */
-		for(Creature c : creatures)
+		for(Creature c : creatures) {
 			c.draw();
-		
+			c.getBody().drawBoundingBox();
+			
+		}
+		for(int i=0; i<creatures.size(); i++) {
+			Creature c = creatures.get(i);
+			for(int j = i; j<creatures.size(); j++) {
+				Creature c2 = creatures.get(j);
+				// test: check if bounding boxes collide
+				if(AABB.testOverlap(c.getBody().aabb2, c2.getBody().aabb2)) {
+					System.out.println("COLLIDED!!");
+					c.getBody().drawBoundingBoxCollide();
+					c2.getBody().drawBoundingBoxCollide();
+				}
+				
+				if(c.getBody().aabb2.contains(c2.getBody().aabb2)) {
+					System.out.println("COLLIDED!!");
+					c.getBody().drawBoundingBoxCollide();
+					c2.getBody().drawBoundingBoxCollide();
+				}
+				
+				
+			}
+		}
 	}
 }

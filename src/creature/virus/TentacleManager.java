@@ -24,7 +24,7 @@ public class TentacleManager extends LimbManager {
 	
 	public void createLimbs() {
 	    PVector tPos; // tentacle pos
-	    int r = creature.getBody().w/2; // radius is half of body
+	    float r = creature.getBody().getWidth()/2; // radius is half of body
 	    
 	///// COULD BE SELECTED FOR PARAMETER CONTROL
 	    int numTentacles = (p.random(1) < 0.5) ? 6 : 7;

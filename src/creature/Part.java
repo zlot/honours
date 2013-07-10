@@ -8,6 +8,11 @@ public abstract class Part extends PClass {
 	protected PVector pos;
 	protected Behaviour behaviour; // MUST this exist for each part?
 	
+	Part(PVector _pos) {
+		pos = _pos;
+	}
+	
+	
 	public abstract void draw();
 	
 	/**

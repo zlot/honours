@@ -13,7 +13,7 @@ public class Tentacle extends Limb {
 	  // of the AABB?
 
 	  public Tentacle(PVector _pos, float _ang) {
-	    pos = _pos;
+		super(_pos);
 	    ang = _ang;
 	    height = 16; // COULD BE SELECTED FOR PARAMETER CONTROL.
 	    width = 20; // width being radius of biggest part of tentacle.
@@ -33,7 +33,7 @@ public class Tentacle extends Limb {
 	  
 	  @Override
 	  public void update() {
-
+		  
 	  }
 	  
 	  

@@ -3,7 +3,6 @@ package creature.virus;
 import creature.*;
 import processing.core.*;
 
-// Strategy Pattern?
 @SuppressWarnings("static-access")
 public class Virus extends Creature {
 	  

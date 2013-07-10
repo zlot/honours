@@ -1,5 +1,7 @@
 package creature;
 
+import processing.core.PVector;
+
 public abstract class Limb extends Part {
 
 	//protected Behaviour limbBehaviour;
@@ -9,6 +11,10 @@ public abstract class Limb extends Part {
 	
 	protected float width;
 	protected float height;
+	
+	protected Limb(PVector _pos) {
+		super(_pos);
+	}
 	
 	@Override
 	public abstract void draw();
