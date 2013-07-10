@@ -5,7 +5,6 @@ import loader.PClass;
 
 public abstract class Creature extends PClass {
 
-	protected PVector pos = null; // usually the same as body pos.
 	protected Body body = null;
 	protected LimbManager limbManager = null;
 	protected BehaviourManager behaviourManager = new BehaviourManager(this);
@@ -22,7 +21,7 @@ public abstract class Creature extends PClass {
 	 */
 	public void setBehaviour(Behaviour b) {
 		// if behaviour doesn't exist in behaviourManager, add to it and set.
-		if(!behaviourManager.getBehaviours().contains(b)) {
+		if(!behaviourManager.getBodyBehaviours().contains(b)) {
 			behaviourManager.add(b);
 			behaviourManager.setBehaviour(b);
 		} else {

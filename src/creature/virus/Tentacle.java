@@ -18,8 +18,6 @@ public class Tentacle extends Limb {
 	    ang = _ang;
 	    height = 16; // COULD BE SELECTED FOR PARAMETER CONTROL.
 	    width = 20; // width being radius of biggest part of tentacle.
-	    
-	    limbBehaviour = new TentacleBehaviour(this);
 	  }
 	    
 	  
@@ -28,7 +26,7 @@ public class Tentacle extends Limb {
 		  p.pushMatrix();
 		  p.translate(pos.x, pos.y);
 		  
-		  limbBehaviour.update();
+		//  limbBehaviour.update();
 	    
 		  p.popMatrix();
 	  }

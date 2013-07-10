@@ -35,9 +35,8 @@ public class PopulationDirector extends PClass {
 		/* Update all behaviours */
 		// for all creatures,
 		for(Creature c : creatures)
-			// get behaviourManagers,
-			for(Behaviour b : c.getBehaviourManager().getBehaviours())
-				b.update();
+			c.getBehaviourManager().update();
+
 		
 		/* Draw all creatures */
 		for(Creature c : creatures)

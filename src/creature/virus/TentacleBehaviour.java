@@ -6,21 +6,25 @@ import creature.*;
 public class TentacleBehaviour extends Behaviour {
 
 	float tOffset; // special offset to make this tentacle unique.
-	Limb limb; // reference to limb attached to this behaviour
 	float w, h;
 	
-	public TentacleBehaviour(Limb _limb) {
-		limb = _limb;
+	public TentacleBehaviour() {
 		tOffset = p.random(0, 2); // tentacle offset
-		w = limb.getWidth();
-		h = limb.getHeight();
+		
 	}
-
+	
 	// annoying global just for noise.
 	float noiseInc = 0;
 	
 	@Override
 	public void update() {
+		// sloppy
+		if(limb != null) {
+			w = limb.getWidth();
+			h = limb.getHeight();			
+		}
+		
+		
 		
 		float n = p.noise(noiseInc + tOffset);
 		//////// COULD BE SELECTED FOR PARAMETER CONTROL.
@@ -33,7 +37,6 @@ public class TentacleBehaviour extends Behaviour {
 		recursiveTentacles(limb.getHeight(), tentacleTwist);
 	}
 
-	// this is really part of behaviour!	  
 	private void recursiveTentacles(float l, float tentacleTwist) {
 		if(l > 0) {      
 	//////// COULD BE SELECTED FOR PARAMETER CONTROL.

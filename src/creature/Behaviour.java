@@ -14,8 +14,8 @@ public abstract class Behaviour extends PClass {
 	// and initiated with random value, allowing all behaviours
 	// to always have an accessible noise value to use thats unique.
 	
-	
-	PVector pos;
+	protected Limb limb = null; // reference to limb, if used as a limb behaviour.
+	PVector pos; // not needed?? This should be a reference to the body instead.
 	
 	// behaviour should register existence to BehaviourDirector.
 	// observer pattern. BehaviourDirector controlls this.
@@ -34,5 +34,8 @@ public abstract class Behaviour extends PClass {
 	
 	public abstract void freeze();	
 
-	
+	// MUST be set if used as limbBehaviour! This is sloppy.
+	public void setLimb(Limb _limb) {
+		limb = _limb;
+	}
 }

@@ -11,10 +11,8 @@ import processing.core.*;
 public class Virus extends Creature {
 	  
 	  public Virus() {
-		  pos = new PVector(p.random(width), p.random(height));
-		  
-		  setBehaviour(new MoveBehaviour(pos));
 		  createParts();
+		  setBehaviours();
 	  }
 	  
 	  public void draw() {
@@ -24,9 +22,15 @@ public class Virus extends Creature {
 	  
 	  protected void createParts() {
 		  int w = (int) p.random(70, 130);
-		  body = new VirusBody(pos, w);
+		  PVector randomPos = new PVector(p.random(width), p.random(height));
+		  body = new VirusBody(randomPos, w);
 		  
 		  limbManager = new TentacleManager(this); // w/2 is radius
+	  }
+	  
+	  protected void setBehaviours() {
+		  setBehaviour(new MoveBehaviour(body.getPos()));
+		  getBehaviourManager().setLimbBehaviour(new TentacleBehaviour());
 	  }
 	  
 	}
