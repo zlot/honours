@@ -35,7 +35,10 @@ public class Tentacle extends Limb {
 	  
 	  
 	  public void drawSpecific(float x, float y, float scaleX, float scaleY) {
-		  p.ellipse(x, y, scaleX, scaleY);
+		  //p.ellipse(x, y, scaleX, scaleY);
+		  scaleX *= 3.5;
+		  scaleY *= 3.5;
+		  p.triangle(x-scaleX, y+scaleY, x, y-scaleY, x+scaleX, y+scaleY);
 	  }
 	  
 	  
