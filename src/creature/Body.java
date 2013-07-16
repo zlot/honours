@@ -6,7 +6,7 @@ public abstract class Body extends Part {
 
 	protected float width, height;
 	
-	AABB aabb2;
+	AABB aabb2; // the aabb2 is always in world space.
 	AABB aabb; // aabb for body. needs: farthest top, right, bottom, left values. how to get these?
 	// the bounding box actually has to be in WORLD SPACE.
 	// does this mean it must get updated every frame?
