@@ -10,7 +10,7 @@ public class VirusBody extends Body {
 		super(_pos);
 		setWidth(_width);
 		setHeight(_width);
-		setBehaviour(new MoveBehaviour(_pos));
+//		setBehaviour(new MoveBehaviour(_pos));
 	}
 
 	@Override

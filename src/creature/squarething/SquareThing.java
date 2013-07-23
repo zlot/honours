@@ -21,4 +21,10 @@ public class SquareThing extends Creature {
 		
 	}
 
+	@Override
+	protected void addBehaviours() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
