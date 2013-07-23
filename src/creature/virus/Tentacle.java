@@ -31,10 +31,10 @@ public class Tentacle extends Limb {
 		  p.popMatrix();
 	  }
 	  
-	  @Override
-	  public void update() {
-		  
-	  }
+//	  @Override
+//	  public void update() {
+//		  
+//	  }
 	  
 	  
 	  public void drawSpecific(float x, float y, float scaleX, float scaleY) {

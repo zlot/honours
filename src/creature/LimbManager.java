@@ -19,8 +19,8 @@ public abstract class LimbManager extends PClass {
 	
 	
 	public void update() {
-		for(Limb l : limbs)
-			l.update();
+//		for(Limb l : limbs)
+//			l.update();
 	}
 	
 	

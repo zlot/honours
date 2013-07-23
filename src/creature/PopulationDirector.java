@@ -2,6 +2,7 @@ package creature;
 
 import java.util.ArrayList;
 
+
 import loader.PClass;
 
 public class PopulationDirector extends PClass {
@@ -34,8 +35,9 @@ public class PopulationDirector extends PClass {
 	public void update() {
 		/* Update all behaviours */
 		for(Creature c : creatures) {
-			c.getBody().update();
-			c.getLimbManager().update();
+			for(Behaviour b : c.getBehaviourManager().getBehaviours())
+				b.update();
+			c.getBody().update(); // runs BoundingBox stuff (for now)
 		}
 		/* Draw all creatures */
 		for(Creature c : creatures) {
@@ -49,14 +51,9 @@ public class PopulationDirector extends PClass {
 				Creature c2 = creatures.get(j);
 				// test: check if bounding boxes collide
 				if(AABB.testOverlap(c.getBody().aabb2, c2.getBody().aabb2)) {
-					System.out.println("COLLIDED!!");
 					c.getBody().drawBoundingBoxCollide();
 					c2.getBody().drawBoundingBoxCollide();
 				}
-				
-				// shit, actually, just write my own damn overlap code.
-				// it's not hard.
-				// ... no, I should go by Shiffman.
 				
 //				if(c.getBody().aabb2.contains(c2.getBody().aabb2)) {
 //					System.out.println("COLLIDED!!");

@@ -7,8 +7,10 @@ import processing.core.*;
 public class Virus extends Creature {
 	  
 	  public Virus() {
+		  super(); // creates behaviourManager
 		  pos = new PVector(p.random(width), p.random(height));
 		  createParts();
+		  addBehaviours();
 	  }
 	  
 	  public void draw() {
@@ -21,6 +23,10 @@ public class Virus extends Creature {
 		  body = new VirusBody(pos, w);
 		  
 		  limbManager = new TentacleManager(this); // w/2 is radius
+	  }
+	  
+	  protected void addBehaviours() {
+		  addBehaviour(new MoveBehaviour(getBody().getPos()));
 	  }
 	  
 	}

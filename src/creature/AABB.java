@@ -23,14 +23,6 @@
  ******************************************************************************/
 package creature;
 
-
-import org.jbox2d.collision.RayCastInput;
-import org.jbox2d.collision.RayCastOutput;
-import org.jbox2d.common.MathUtils;
-import org.jbox2d.common.Settings;
-import org.jbox2d.common.Vec2;
-import org.jbox2d.pooling.IWorldPool;
-import org.jbox2d.pooling.normal.DefaultWorldPool;
 import loader.PClass;
 import processing.core.*;
 
