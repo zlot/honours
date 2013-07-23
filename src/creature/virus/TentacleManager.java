@@ -38,6 +38,9 @@ public class TentacleManager extends LimbManager {
 	    	limbs.add(t);
 	    }
 	}
+
+	float tOffset; // special offset to make this tentacle unique.
+	
 	
 
 }

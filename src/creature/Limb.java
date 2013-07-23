@@ -4,7 +4,6 @@ import processing.core.PVector;
 
 public abstract class Limb extends Part {
 
-	//protected Behaviour limbBehaviour;
 	// note: maybe this is promoted to Limb field? can have a helper function that can
 	// ALWAYS calculate this based on body PVector?
 	protected float ang; // angle on body. ALREADY IN RADIANS.
@@ -19,11 +18,11 @@ public abstract class Limb extends Part {
 	@Override
 	public abstract void draw();
 	
-	public abstract void drawSpecific(float x, float y, float scaleX, float scaleY);
-
-	public void setBehaviour(Behaviour b) {
-		behaviour = b;
-	}
+//	public void setBehaviour(Behaviour b) {
+//		behaviour = b;
+//	}
+	
+	public abstract void update();
 	
     public float getAngle() {
     	return ang;

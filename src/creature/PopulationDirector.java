@@ -38,6 +38,8 @@ public class PopulationDirector extends PClass {
 			for(Behaviour b : c.getBehaviourManager().getBehaviours())
 				b.update();
 			c.getBody().update(); // runs BoundingBox stuff (for now)
+			c.getLimbManager().update(); // update limbs. This may or may not do anything
+										 // depending on the implemenation of the limb.
 		}
 		/* Draw all creatures */
 		for(Creature c : creatures) {
