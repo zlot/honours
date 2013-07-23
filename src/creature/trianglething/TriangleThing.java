@@ -20,4 +20,10 @@ public class TriangleThing extends Creature {
 
 	}
 
+	@Override
+	protected void addBehaviours() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
