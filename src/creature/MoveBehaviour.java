@@ -19,7 +19,7 @@ public class MoveBehaviour extends Behaviour {
 	  
 	  // noise-walk the pos
 	public void move() {
-	    PVector pos = creature.getBody().getPos();
+	    PVector pos = c.getBody().getPos();
 		
 		PVector vel = new PVector();
 	    float n = p.noise(noiseInc + nOffset);
@@ -33,8 +33,8 @@ public class MoveBehaviour extends Behaviour {
 	    noiseInc += 0.006;
 
 	    pos.add(vel);
-	    pos.x = p.constrain(pos.x, 0, width);
-	    pos.y = p.constrain(pos.y, 0, height);
+	    pos.x = p.constrain(pos.x, 0, getScreenWidth());
+	    pos.y = p.constrain(pos.y, 0, getScreenHeight());
     }
 
 	@Override

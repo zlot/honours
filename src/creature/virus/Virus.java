@@ -8,7 +8,7 @@ public class Virus extends Creature {
 	  
 	  public Virus() {
 		  super(); // creates behaviourManager
-		  pos = new PVector(p.random(width), p.random(height));
+		  pos = new PVector(p.random(getScreenWidth()), p.random(getScreenHeight()));
 		  createParts();
 		  addBehaviours();
 	  }
@@ -27,6 +27,8 @@ public class Virus extends Creature {
 	  
 	  protected void addBehaviours() {
 		  addBehaviour(new MoveBehaviour(this));
+		  
+		  if(p.random(1) < 0.75) addBehaviour(new CollisionBehaviour(this));
 	  }
 	  
 	}

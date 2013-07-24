@@ -14,7 +14,7 @@ public abstract class Behaviour extends PClass {
 	// and initiated with random value, allowing all behaviours
 	// to always have an accessible noise value to use thats unique.
 
-	protected Creature creature; // reference to creature instance
+	protected Creature c; // reference to creature instance
 	
 	// behaviour should register existence to BehaviourDirector.
 	// observer pattern. BehaviourDirector controlls this.
@@ -22,7 +22,7 @@ public abstract class Behaviour extends PClass {
 	// so the Creature itself gets control over switching its behaviour?
 
 	Behaviour(Creature _creature) {
-		creature = _creature;
+		c = _creature;
 	}
 	
 	public abstract void update();

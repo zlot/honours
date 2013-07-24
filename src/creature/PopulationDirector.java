@@ -1,7 +1,8 @@
 package creature;
 
 import java.util.ArrayList;
-
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import loader.PClass;
 
@@ -35,8 +36,13 @@ public class PopulationDirector extends PClass {
 	public void update() {
 		/* Update all behaviours */
 		for(Creature c : creatures) {
-			for(Behaviour b : c.getBehaviourManager().getBehaviours())
-				b.update();
+
+			// iterate through Map of behaviours.
+			for (Entry<Class<? extends Behaviour>, Behaviour> entry : c.getBehaviourManager().getBehaviours().entrySet()) {
+				entry.getValue().update();
+			}
+//			for(Behaviour b : c.getBehaviourManager().getBehaviours())
+//				b.update();
 			c.getBody().update(); // runs BoundingBox stuff (for now)
 			c.getLimbManager().update(); // update limbs. This may or may not do anything
 										 // depending on the implemenation of the limb.
