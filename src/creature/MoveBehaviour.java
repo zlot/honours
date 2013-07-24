@@ -8,8 +8,8 @@ public class MoveBehaviour extends Behaviour {
 
 	  float nOffset; // special offset to make virus movement unique.
 	  
-	  public MoveBehaviour(PVector _pos) {
-	    pos = _pos;
+	  public MoveBehaviour(Creature  _creature) {
+	    super(_creature);
 	    nOffset = p.random(-100, 100);
 	  }
 	  
@@ -19,7 +19,9 @@ public class MoveBehaviour extends Behaviour {
 	  
 	  // noise-walk the pos
 	public void move() {
-	    PVector vel = new PVector();
+	    PVector pos = creature.getBody().getPos();
+		
+		PVector vel = new PVector();
 	    float n = p.noise(noiseInc + nOffset);
 	    float nMapped = p.map(n, 0, 1, -mmStep, mmStep); // for x
 	    vel.x = nMapped;
@@ -29,7 +31,7 @@ public class MoveBehaviour extends Behaviour {
 	    vel.y = nMapped;
 	    
 	    noiseInc += 0.006;
-	    
+
 	    pos.add(vel);
 	    pos.x = p.constrain(pos.x, 0, width);
 	    pos.y = p.constrain(pos.y, 0, height);

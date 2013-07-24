@@ -13,15 +13,18 @@ public abstract class Behaviour extends PClass {
 	// note: maybe have an nOffset, that gets incremented here?
 	// and initiated with random value, allowing all behaviours
 	// to always have an accessible noise value to use thats unique.
-	
-	
-	PVector pos;
+
+	protected Creature creature; // reference to creature instance
 	
 	// behaviour should register existence to BehaviourDirector.
 	// observer pattern. BehaviourDirector controlls this.
 	// but maybe we need a mediator or proxy here? A BehaviourManager?
 	// so the Creature itself gets control over switching its behaviour?
 
+	Behaviour(Creature _creature) {
+		creature = _creature;
+	}
+	
 	public abstract void update();
 	
 	protected abstract void move();

@@ -26,7 +26,7 @@ public class Virus extends Creature {
 	  }
 	  
 	  protected void addBehaviours() {
-		  addBehaviour(new MoveBehaviour(getBody().getPos()));
+		  addBehaviour(new MoveBehaviour(this));
 	  }
 	  
 	}
