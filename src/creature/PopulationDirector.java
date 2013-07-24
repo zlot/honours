@@ -10,7 +10,7 @@ public class PopulationDirector extends PClass {
 	private static PopulationDirector singleton = new PopulationDirector(); // thread-safe.
 	
 	// List of all creatures in population
-	ArrayList<Creature> creatures;
+	public ArrayList<Creature> creatures;
 
 	private PopulationDirector() {
 		creatures = new ArrayList<Creature>();
@@ -44,27 +44,6 @@ public class PopulationDirector extends PClass {
 		/* Draw all creatures */
 		for(Creature c : creatures) {
 			c.draw();
-			c.getBody().drawBoundingBox();
-			
-		}
-		for(int i=0; i<creatures.size(); i++) {
-			Creature c = creatures.get(i);
-			for(int j = i+1; j<creatures.size(); j++) {
-				Creature c2 = creatures.get(j);
-				// test: check if bounding boxes collide
-				if(AABB.testOverlap(c.getBody().aabb2, c2.getBody().aabb2)) {
-					c.getBody().drawBoundingBoxCollide();
-					c2.getBody().drawBoundingBoxCollide();
-				}
-				
-//				if(c.getBody().aabb2.contains(c2.getBody().aabb2)) {
-//					System.out.println("COLLIDED!!");
-//					c.getBody().drawBoundingBoxCollide();
-//					c2.getBody().drawBoundingBoxCollide();
-//				}
-				
-				
-			}
 		}
 	}
 }

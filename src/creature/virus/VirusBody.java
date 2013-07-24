@@ -7,10 +7,7 @@ import creature.MoveBehaviour;
 public class VirusBody extends Body {
 	
 	public VirusBody(PVector _pos, int _width) {
-		super(_pos);
-		setWidth(_width);
-		setHeight(_width);
-//		setBehaviour(new MoveBehaviour(_pos));
+		super(_pos, _width, _width);
 	}
 
 	@Override
