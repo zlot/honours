@@ -1,5 +1,7 @@
 package creature.virus;
 
+import behaviour.CollisionBehaviour;
+import behaviour.MoveBehaviour;
 import creature.*;
 import processing.core.*;
 

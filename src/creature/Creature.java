@@ -5,7 +5,7 @@ import loader.PClass;
 
 public abstract class Creature extends PClass {
 
-	protected PVector pos = null; // usually the same as body pos.
+	protected PVector pos = null; // pointing to same instance as body pos.
 	protected Body body = null;
 	protected LimbManager limbManager = null;
 	

@@ -65,5 +65,11 @@ public class CopyOfVirus extends Creature {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	protected void addBehaviours() {
+		// TODO Auto-generated method stub
+		
+	}
 	  
 	}

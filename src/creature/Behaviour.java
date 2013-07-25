@@ -21,7 +21,7 @@ public abstract class Behaviour extends PClass {
 	// but maybe we need a mediator or proxy here? A BehaviourManager?
 	// so the Creature itself gets control over switching its behaviour?
 
-	Behaviour(Creature _creature) {
+	public Behaviour(Creature _creature) {
 		c = _creature;
 	}
 	

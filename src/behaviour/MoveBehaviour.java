@@ -1,23 +1,25 @@
-package creature;
+package behaviour;
 
+import creature.Behaviour;
+import creature.Creature;
 import processing.core.*;
 import loader.PClass;
 
 @SuppressWarnings("static-access")
 public class MoveBehaviour extends Behaviour {
 
-	  float nOffset; // special offset to make virus movement unique.
-	  
-	  public MoveBehaviour(Creature  _creature) {
-	    super(_creature);
-	    nOffset = p.random(-100, 100);
-	  }
-	  
-	  // annoying field just for noise
-	  float noiseInc = 0;
-	  float mmStep = 0.5f; // movement step
-	  
-	  // noise-walk the pos
+	float nOffset; // special offset to make virus movement unique.
+	
+	public MoveBehaviour(Creature  _creature) {
+		super(_creature);
+		nOffset = p.random(-100, 100);
+	}
+	
+	// annoying field just for noise
+	float noiseInc = 0;
+	float mmStep = 0.5f; // movement step
+	
+	// noise-walk the pos
 	public void move() {
 	    PVector pos = c.getBody().getPos();
 		

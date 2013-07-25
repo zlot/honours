@@ -14,7 +14,7 @@ public class World extends PClass {
 	static int bgColor;
 	
 //	private ArrayList<Creature> creatures = new ArrayList<Creature>();
-	private PopulationDirector populationDirector;
+	public static PopulationDirector populationDirector;
 	
 	
 	public World() {

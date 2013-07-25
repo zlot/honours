@@ -1,8 +1,8 @@
 package creature.virus;
 
+import behaviour.MoveBehaviour;
 import processing.core.*;
 import creature.Body;
-import creature.MoveBehaviour;
 
 public class VirusBody extends Body {
 	
