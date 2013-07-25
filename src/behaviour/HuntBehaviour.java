@@ -70,10 +70,10 @@ public class HuntBehaviour extends Behaviour {
 			// in this case, fuck, just switch now to PBox2D so this shit can actually work with PBox2D.
 			// its kind of useless otherwise. So switch, we need physics!!
 			
-			if(AABB.testOverlap(huntingAABB, c2CollisionBehaviour.aabbWorldSpace)) {
-				boundingBoxCollided(); // c1 collided event
-				c2CollisionBehaviour.boundingBoxCollided(); // c2 collided event
-			}
+//			if(AABB.testOverlap(huntingAABB, c2CollisionBehaviour.aabbWorldSpace)) {
+//				boundingBoxCollided(); // c1 collided event
+//				c2CollisionBehaviour.boundingBoxCollided(); // c2 collided event
+//			}
 			
 		}
 		// if there is a creature within radius, move towards it

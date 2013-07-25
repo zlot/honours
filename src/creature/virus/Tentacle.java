@@ -63,5 +63,10 @@ public class Tentacle extends Limb {
 //	  @Override
 	  public void update() {
 	  }
+
+
+	@Override
+	public void setColor(int color) {
+	}
 	  
 }

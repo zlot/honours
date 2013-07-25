@@ -30,11 +30,11 @@ public class CollisionBehaviour2 extends Behaviour {
 			// Turn on collision listening!
 			box2d.listenForCollisions();
 		}
-		addToBox2DWorld();
+		addToBox2dWorld();
 		box2dFrameCount = p.frameCount;
 	}
 	
-	private void addToBox2DWorld() {
+	private void addToBox2dWorld() {
 		BodyDef bd = new BodyDef();
 		bd.position.set(box2d.coordPixelsToWorld(c.getPos()));
 		body = box2d.createBody(bd);
@@ -51,7 +51,14 @@ public class CollisionBehaviour2 extends Behaviour {
 
 	    // Attach that shape to our body!
 	    body.createShape(sd);
+	    
+	    //TODO: necessary?
 	    body.setMassFromShapes();
+	    
+	    // add application-specific body data. Box2d body now knows the creature it is attached to.
+	    // can be retrieved by casting body.getUserData() to Creature.
+	    body.setUserData(c);
+	    
 
 	    // Give it some initial random velocity
 	    body.setLinearVelocity(new Vec2(p.random(-5,5),p.random(2,5)));
@@ -70,6 +77,10 @@ public class CollisionBehaviour2 extends Behaviour {
 	}
 
 	// Collision event functions!
+	
+	// TODO:: NEED TO CHANGE PContactListener SO THAT IT LOOKS HERE IN THIS CLASS INSTEAD OF MAIN.
+	// change to static?
+	
 	public void addContact(ContactPoint cp) {
 	  // Get both shapes
 	  Shape s1 = cp.shape1;
@@ -78,22 +89,25 @@ public class CollisionBehaviour2 extends Behaviour {
 	  org.jbox2d.dynamics.Body b1 = s1.getBody();
 	  org.jbox2d.dynamics.Body b2 = s2.getBody();
 	  
-	  b1.
-	  
 	  // Get our objects that reference these bodies
-	  Object o1 = b1.getUserData();
-	  Object o2 = b2.getUserData();
-
-	  // What class are they?  Box or Particle?
-	  String c1 = o1.getClass().getName();
-	  String c2 = o2.getClass().getName();
-
+	  Creature c1 = (Creature) b1.getUserData();
+	  Creature c2 = (Creature) b2.getUserData();
 	  
-	  if (c1.contains("Box")) {
-	    Particle p = (Particle) o2;
-	    p.change();
-	  } 
+	  collisionAction(c1);
+	  collisionAction(c2);
+
 	}	
+	
+	static private void collisionAction(Creature c) {
+		// TODO:: is THIS, the class we're in (CollisionBehaviour2), or c? MAKE SURE ITS CollisionBehaviour2!!
+		// otherwise just write the damn thing out: (CollisionBehaviour2.class());
+		CollisionBehaviour2 collisionBehaviourForCreature = (CollisionBehaviour2) c.getBehaviourManager().getBehaviours().get(CollisionBehaviour2.class);
+		collisionBehaviourForCreature.collisionAction();
+	}
+	
+	private void collisionAction() {
+		c.getBody().setColor(0xFFFF0000); // hexadecimal colour: 0x[alpha][red][green][blue]
+	}
 	
 	
 	@Override
