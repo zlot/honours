@@ -27,7 +27,7 @@ import loader.PClass;
 import processing.core.*;
 
 /** An axis-aligned bounding box. */
-public class AABB extends PClass {
+public class AABB extends PClass implements Cloneable {
   /** Bottom left vertex of bounding box. */
   public final PVector lowerBound;
   /** Top right vertex of bounding box. */
@@ -313,4 +313,10 @@ public class AABB extends PClass {
     final String s = "AABB[" + lowerBound + " . " + upperBound + "]";
     return s;
   }
+  
+  @Override
+  public AABB clone() {
+	  return new AABB(lowerBound, upperBound);
+  }
+  
 }

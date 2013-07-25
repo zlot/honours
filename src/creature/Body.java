@@ -38,5 +38,8 @@ public abstract class Body extends Part {
 	public float getHeight() {
 		return height;
 	}
+	public AABB getAABB() {
+		return aabb;
+	}
 	
 }
