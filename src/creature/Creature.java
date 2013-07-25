@@ -38,5 +38,8 @@ public abstract class Creature extends PClass {
 	public BehaviourManager getBehaviourManager() {
 		return behaviourManager;
 	}
+	public PVector getPos() {
+		return pos;
+	}
 	
 }
