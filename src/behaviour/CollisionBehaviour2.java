@@ -51,7 +51,11 @@ public class CollisionBehaviour2 extends Behaviour {
 		body = box2d.createBody(bd);
 		
 		// Define the shape -- a polygon (this is what we use for a rectangle)
-		Shape shape = defineSquareShape();
+		//Shape shape = defineSquareShape();
+		
+		// Definte the shape
+		Shape shape = defineCircleShape();
+		
 		
 	    FixtureDef fixtureDef = new FixtureDef();
 	    // Parameters that affect physics
@@ -64,15 +68,15 @@ public class CollisionBehaviour2 extends Behaviour {
 	    
 	    // Attach fixture to body
 	    body.createFixture(fixtureDef);
+	    
 	    body.resetMassData();
-//	    body.setMassFromShapes();
+	    
+	    body.setLinearVelocity(new Vec2(p.random(-10,10),p.random(4,6)));
+	    body.setAngularVelocity(p.random(-5,5));
+
 	    // add application-specific body data. Box2d body now knows the creature it is attached to.
 	    // can be retrieved by casting body.getUserData() to Creature.
 	    body.setUserData(c);
-
-	    // Give it some initial random velocity
-	    body.setLinearVelocity(new Vec2(p.random(-10,10),p.random(4,6)));
-	    body.setAngularVelocity(p.random(-5,5));
 	}
 	
 	private Shape defineSquareShape() {
@@ -84,8 +88,12 @@ public class CollisionBehaviour2 extends Behaviour {
 	    return polygonShape;
 	}
 	
-	private void defineEllipseShape() {
+	private Shape defineCircleShape() {
+		CircleShape circleShape = new CircleShape();
+		float box2dR = box2d.scalarPixelsToWorld(c.getBody().getWidth()/2);
+		circleShape.setRadius(box2dR);
 		
+		return circleShape;
 	}
 
 	@Override
@@ -123,19 +131,11 @@ public class CollisionBehaviour2 extends Behaviour {
 	// Collision event functions!
 	static public void beginContact(Contact c) {
 	  // Get both shapes
-//	  Shape s1 = c.shape1;
-//	  Shape s2 = cp.shape2;
-	  
 	  Fixture fA = c.getFixtureA();
 	  Fixture fB = c.getFixtureB();
-	  
 	  // Get both bodies
-//	  org.jbox2d.dynamics.Body b1 = s1.getBody();
-//	  org.jbox2d.dynamics.Body b2 = s2.getBody();
-
 	  org.jbox2d.dynamics.Body b1 = fA.getBody();
 	  org.jbox2d.dynamics.Body b2 = fB.getBody();
-	  
 	  // Get our objects that reference these bodies
 	  Creature c1 = (Creature) b1.getUserData();
 	  Creature c2 = (Creature) b2.getUserData();
@@ -147,38 +147,35 @@ public class CollisionBehaviour2 extends Behaviour {
 	  } else {
 		  // else, it could be a collision between creature and boundary; do nothing for now.
 	  }
-
 	}	
-	
-	static public void endContact(Contact c) {
-		  // Get both shapes
-		  Fixture fA = c.getFixtureA();
-		  Fixture fB = c.getFixtureB();
-		  
-		  // Get both bodies
-		  org.jbox2d.dynamics.Body b1 = fA.getBody();
-		  org.jbox2d.dynamics.Body b2 = fB.getBody();
-		  
-		  // Get our objects that reference these bodies
-		  Creature c1 = (Creature) b1.getUserData();
-		  Creature c2 = (Creature) b2.getUserData();
-		  
-		  if(c1 instanceof Creature && c2 instanceof Creature) {
-				c1.getBody().setColor(0xFF00FF00); // hexadecimal colour: 0x[alpha][red][green][blue]
-				c2.getBody().setColor(0xFF00FF00); // hexadecimal colour: 0x[alpha][red][green][blue]
-		  } else {
-			  // else, it could be a collision between creature and boundary; do nothing for now.
-		  }
-	}
 	
 	static private void collisionAction(Creature c) {
 		CollisionBehaviour2 collisionBehaviourForCreature = (CollisionBehaviour2) c.getBehaviourManager().getBehaviours().get(CollisionBehaviour2.class);
 		collisionBehaviourForCreature.collisionAction();
 	}
-	
 	private void collisionAction() {
-		c.getBody().setColor(0xFFFF0000); // hexadecimal colour: 0x[alpha][red][green][blue]
+		c.getBody().setColor(0xFFBB0000); // hexadecimal colour: 0x[alpha][red][green][blue]
 	}
+	
+	static public void endContact(Contact c) {
+		  // Get both shapes
+		  Fixture fA = c.getFixtureA();
+		  Fixture fB = c.getFixtureB();
+		  // Get both bodies
+		  org.jbox2d.dynamics.Body b1 = fA.getBody();
+		  org.jbox2d.dynamics.Body b2 = fB.getBody();
+		  // Get our objects that reference these bodies
+		  Creature c1 = (Creature) b1.getUserData();
+		  Creature c2 = (Creature) b2.getUserData();
+		  
+		  if(c1 instanceof Creature && c2 instanceof Creature) {
+				c1.getBody().setColor(0xFF007744); // hexadecimal colour: 0x[alpha][red][green][blue]
+				c2.getBody().setColor(0xFF007744); // hexadecimal colour: 0x[alpha][red][green][blue]
+		  } else {
+			  // else, it could be a collision between creature and boundary; do nothing for now.
+		  }
+	}
+	
 	
 	@Override
 	protected void move() {

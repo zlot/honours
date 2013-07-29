@@ -13,13 +13,9 @@ public class TentacleManager extends LimbManager {
 
 	@Override
 	public void draw() {
-		p.pushMatrix();
-		PVector bodyPos = creature.getBody().getPos();
-		p.translate(bodyPos.x, bodyPos.y);
 		for(Limb t : limbs) {
 			t.draw();
 		}
-		p.popMatrix();
 	}
 	
 	public void createLimbs() {
@@ -40,7 +36,5 @@ public class TentacleManager extends LimbManager {
 	}
 
 	float tOffset; // special offset to make this tentacle unique.
-	
-	
 
 }

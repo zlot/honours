@@ -16,8 +16,8 @@ public class World extends PClass {
 	
 	
 	public World() {
-		width = 550;
-		height = 550;
+		width = 1050;
+		height = 900;
 		p.size(width, height);
 		p.colorMode(p.HSB, 360, 100, 100);
 		bgColor = p.color(240, 40, 40);
@@ -41,9 +41,9 @@ public class World extends PClass {
 //			populationDirector.addCreature(v);
 //		}
 		
-//		populationDirector.addCreatures(Virus.class, 6);
+		populationDirector.addCreatures(Virus.class, 9);
 		
-		populationDirector.addCreatures(SquareThing.class, 70);
+//		populationDirector.addCreatures(SquareThing.class, 70);
 		
 		// for all creatures, add their behaviours to behaviourDirector
 		// this could probably be included as part of instantiation of behaviourDirector singleton.
