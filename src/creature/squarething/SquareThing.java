@@ -25,7 +25,8 @@ public class SquareThing extends Creature {
 
 	@Override
 	protected void createParts() {
-		float r = p.random(20, 80);
+		float r = p.random(15, 45);
+		float r2 = p.random(15, 45);
 		body = new SquareThingBody(pos, r, r);
 	}
 

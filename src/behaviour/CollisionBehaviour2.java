@@ -46,25 +46,26 @@ public class CollisionBehaviour2 extends Behaviour {
 	
 	private void addToBox2dWorld() {
 		BodyDef bd = new BodyDef();
+		bd.type = BodyType.DYNAMIC;
 		bd.position.set(box2d.coordPixelsToWorld(c.getPos()));
 		body = box2d.createBody(bd);
 		
 		// Define the shape -- a polygon (this is what we use for a rectangle)
-		defineSquareShape();
-	    PolygonDef sd = new PolygonDef();
-	    
-	    float box2dW = box2d.scalarPixelsToWorld(c.getBody().getWidth()/2);
-	    float box2dH = box2d.scalarPixelsToWorld(c.getBody().getHeight()/2);
-	    sd.setAsBox(box2dW, box2dH);
+		Shape shape = defineSquareShape();
+		
+	    FixtureDef fixtureDef = new FixtureDef();
 	    // Parameters that affect physics
-	    sd.density = 1f;
-	    sd.friction = .03f;
-	    sd.restitution = 0.85f; // bounce off other objects
-
-	    // Attach that shape to our body!
-	    body.createShape(sd);
+	    fixtureDef.density = 1f;
+	    fixtureDef.friction = 0.3f;
+	    fixtureDef.restitution = 0.85f; // bounce off other objects
+		
+	    // Attach shape to fixture
+	    fixtureDef.shape = shape;
 	    
-	    body.setMassFromShapes();
+	    // Attach fixture to body
+	    body.createFixture(fixtureDef);
+	    body.resetMassData();
+//	    body.setMassFromShapes();
 	    // add application-specific body data. Box2d body now knows the creature it is attached to.
 	    // can be retrieved by casting body.getUserData() to Creature.
 	    body.setUserData(c);
@@ -74,8 +75,13 @@ public class CollisionBehaviour2 extends Behaviour {
 	    body.setAngularVelocity(p.random(-5,5));
 	}
 	
-	private void defineSquareShape() {
-		
+	private Shape defineSquareShape() {
+	    PolygonShape polygonShape = new PolygonShape();
+	    float box2dW = box2d.scalarPixelsToWorld(c.getBody().getWidth()/2);
+	    float box2dH = box2d.scalarPixelsToWorld(c.getBody().getHeight()/2);
+	    polygonShape.setAsBox(box2dW, box2dH);
+	    
+	    return polygonShape;
 	}
 	
 	private void defineEllipseShape() {
@@ -115,13 +121,20 @@ public class CollisionBehaviour2 extends Behaviour {
 	}
 
 	// Collision event functions!
-	static public void addContact(ContactPoint cp) {
+	static public void beginContact(Contact c) {
 	  // Get both shapes
-	  Shape s1 = cp.shape1;
-	  Shape s2 = cp.shape2;
+//	  Shape s1 = c.shape1;
+//	  Shape s2 = cp.shape2;
+	  
+	  Fixture fA = c.getFixtureA();
+	  Fixture fB = c.getFixtureB();
+	  
 	  // Get both bodies
-	  org.jbox2d.dynamics.Body b1 = s1.getBody();
-	  org.jbox2d.dynamics.Body b2 = s2.getBody();
+//	  org.jbox2d.dynamics.Body b1 = s1.getBody();
+//	  org.jbox2d.dynamics.Body b2 = s2.getBody();
+
+	  org.jbox2d.dynamics.Body b1 = fA.getBody();
+	  org.jbox2d.dynamics.Body b2 = fB.getBody();
 	  
 	  // Get our objects that reference these bodies
 	  Creature c1 = (Creature) b1.getUserData();
@@ -137,13 +150,14 @@ public class CollisionBehaviour2 extends Behaviour {
 
 	}	
 	
-	static public void removeContact(ContactPoint cp) {
+	static public void endContact(Contact c) {
 		  // Get both shapes
-		  Shape s1 = cp.shape1;
-		  Shape s2 = cp.shape2;
+		  Fixture fA = c.getFixtureA();
+		  Fixture fB = c.getFixtureB();
+		  
 		  // Get both bodies
-		  org.jbox2d.dynamics.Body b1 = s1.getBody();
-		  org.jbox2d.dynamics.Body b2 = s2.getBody();
+		  org.jbox2d.dynamics.Body b1 = fA.getBody();
+		  org.jbox2d.dynamics.Body b2 = fB.getBody();
 		  
 		  // Get our objects that reference these bodies
 		  Creature c1 = (Creature) b1.getUserData();
@@ -219,21 +233,30 @@ public class CollisionBehaviour2 extends Behaviour {
 			w = _w;
 			h = _h;
 			
-			PolygonDef polygon = new PolygonDef();
+//			PolygonDef polygon = new PolygonDef();
 			
+			// shape
+			PolygonShape polyShape = new PolygonShape();
 			float box2dW = box2d.scalarPixelsToWorld(w/2);
 			float box2dH = box2d.scalarPixelsToWorld(h/2);
-			polygon.density = 0;    // No density means it won't move!
-			polygon.friction = 0.3f;
-			polygon.setAsBox(box2dW, box2dH);
+			polyShape.setAsBox(box2dW, box2dH);
 			
-			BodyDef bd = new BodyDef();
+			// shape to fixture
+			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.shape = polyShape;
+			
+			// fixture to body
+			
+			fixtureDef.density = 0;    // No density means it won't move!
+			fixtureDef.friction = 0.3f;
+
+			BodyDef bodyDef = new BodyDef();
 			
 			Vec2 posInBox2dWorld = box2d.coordPixelsToWorld(new PVector(x,y));
-			bd.position.set(posInBox2dWorld);
+			bodyDef.position.set(posInBox2dWorld);
 			
-			org.jbox2d.dynamics.Body constraint = box2d.createBody(bd);
-			constraint.createShape(polygon);
+			org.jbox2d.dynamics.Body body = box2d.createBody(bodyDef);
+			body.createFixture(fixtureDef);
 			
 			addToUpdate(this);
 		}
