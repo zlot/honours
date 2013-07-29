@@ -1,13 +1,16 @@
 package behaviour;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import processing.core.PVector;
 import creature.*;
-
 import pbox2d.*;
+import main.World;
+
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.joints.*;
 import org.jbox2d.collision.shapes.*;
-import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
@@ -18,8 +21,9 @@ public class CollisionBehaviour2 extends Behaviour {
 	
 	// A reference to our box2d world
 	static public PBox2D box2d;
+	static private int box2dFrameCount; // used to make sure box2d is stepped through only once per frame.
+
 	private org.jbox2d.dynamics.Body body;
-	private int box2dFrameCount; // used to make sure box2d is stepped through only once per frame.
 	
 	public CollisionBehaviour2(Creature _creature) {
 		super(_creature);
@@ -29,10 +33,68 @@ public class CollisionBehaviour2 extends Behaviour {
 			box2d.createWorld();
 			// Turn on collision listening!
 			box2d.listenForCollisions();
+			box2d.setGravity(0, 1);
 		}
 		addToBox2dWorld();
-		box2dFrameCount = p.frameCount;
+		
+		addAConstraint();
+		
+		box2dFrameCount = 1;
 	}
+	
+	
+	private void addAConstraint() {
+		new BoxConstraint(World.getScreenWidth()/2, 0, 100, 100);
+	}
+	
+	
+	class BoxConstraint implements Updateable {
+		
+		float x, y, w, h;
+		org.jbox2d.dynamics.Body b;
+		
+		BoxConstraint(float _x, float _y, float _w, float _h) {
+			x = _x;
+			y = _y;
+			w = _w;
+			h = _h;
+			
+			PolygonDef polygon = new PolygonDef();
+			
+			float box2dW = box2d.scalarPixelsToWorld(w/2);
+			float box2dH = box2d.scalarPixelsToWorld(h/2);
+			polygon.density = 0;    // No density means it won't move!
+			polygon.friction = 0.3f;
+			polygon.setAsBox(box2dW, box2dH);
+			
+			BodyDef bd = new BodyDef();
+			bd.position.set(new Vec2(x,y));
+			org.jbox2d.dynamics.Body constraint = box2d.createBody(bd);
+			constraint.createShape(polygon);
+			addToUpdate(this);
+		}
+		
+		public void update() {}
+		
+		public void draw() {
+		    p.pushStyle();
+		    p.fill(0);
+		    p.stroke(0);
+		    p.rectMode(p.CENTER);
+		    p.rect(x,y,w,h);
+		    p.popStyle();
+		}
+		
+	}
+	
+	private void addToUpdate(Updateable o) {
+		// observer pattern. Used to register update() and draw() methods within the passed object.
+		updateList.add(o);
+	}
+	
+	private List<Updateable> updateList = new ArrayList<Updateable>();
+	
+	
 	
 	private void addToBox2dWorld() {
 		BodyDef bd = new BodyDef();
@@ -40,12 +102,16 @@ public class CollisionBehaviour2 extends Behaviour {
 		body = box2d.createBody(bd);
 	    // Define the shape -- a polygon (this is what we use for a rectangle)
 	    PolygonDef sd = new PolygonDef();
+	    
+	    
+	    //TODO::: What is scalarPixels to world? why /2? Does this coord stuff have to do
+	    //        with why its not working very well?  
 	    float box2dW = box2d.scalarPixelsToWorld(c.getBody().getWidth()/2);
 	    float box2dH = box2d.scalarPixelsToWorld(c.getBody().getHeight()/2);
 	    sd.setAsBox(box2dW, box2dH);
 	    // Parameters that affect physics
 	    // TODO::
-	    sd.density = 1.0f;
+	    sd.density = .5f;
 	    sd.friction = 0.3f;
 	    sd.restitution = 0.5f;
 
@@ -61,27 +127,33 @@ public class CollisionBehaviour2 extends Behaviour {
 	    
 
 	    // Give it some initial random velocity
-	    body.setLinearVelocity(new Vec2(p.random(-5,5),p.random(2,5)));
+	    body.setLinearVelocity(new Vec2(p.random(-10,10),p.random(4,6)));
 	    body.setAngularVelocity(p.random(-5,5));
 		
 	}
 
+	
+	// TODO:::: next, getting the positions of the things to conform to the physics engine!!
+	// TODO:::: it seems like only the last (or the first?) creature has any physics properties.
+	//             figure out why this is!!
+	
 	@Override
 	public void update() {
 		// We must always step through time!
-		// TODO:: make sure this is happening only once per frame. Is this logic correct.
-		if(box2dFrameCount == p.frameCount) {
-			box2d.step();
+		if(p.frameCount == box2dFrameCount) {
 			box2dFrameCount++;
-		} else return;
+			box2d.step();
+		}
+		move();
+		
+		for(Updateable o : updateList) {
+			o.update();
+			o.draw();
+		}
 	}
 
 	// Collision event functions!
-	
-	// TODO:: NEED TO CHANGE PContactListener SO THAT IT LOOKS HERE IN THIS CLASS INSTEAD OF MAIN.
-	// change to static?
-	
-	public void addContact(ContactPoint cp) {
+	static public void addContact(ContactPoint cp) {
 	  // Get both shapes
 	  Shape s1 = cp.shape1;
 	  Shape s2 = cp.shape2;
@@ -112,8 +184,10 @@ public class CollisionBehaviour2 extends Behaviour {
 	
 	@Override
 	protected void move() {
-		// TODO Auto-generated method stub
-
+		// here we place the position from the physics engine, back to the pos of the creature.
+		Vec2 physicsPos = box2d.getBodyPixelCoord(this.body);
+		c.getBody().getPos().x = physicsPos.x;
+		c.getBody().getPos().y = physicsPos.y;
 	}
 
 	@Override

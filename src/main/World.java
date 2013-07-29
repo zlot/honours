@@ -43,7 +43,7 @@ public class World extends PClass {
 //			populationDirector.addCreature(v);
 //		}
 		
-		populationDirector.addCreatures(new Virus(), 7);
+		populationDirector.addCreatures(new Virus(), 11);
 		
 		// for all creatures, add their behaviours to behaviourDirector
 		// this could probably be included as part of instantiation of behaviourDirector singleton.
@@ -64,7 +64,6 @@ public class World extends PClass {
 		// refresh background
 		p.fill(bgColor);
 		p.rect(0,0,width,height);
-		
 		populationDirector.update();
 		
 	}
