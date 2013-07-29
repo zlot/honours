@@ -9,14 +9,11 @@ import pbox2d.*;
 import main.World;
 
 import org.jbox2d.common.*;
-import org.jbox2d.dynamics.joints.*;
 import org.jbox2d.collision.shapes.*;
-import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
 
 public class CollisionBehaviour2 extends Behaviour {
-
 	// width and height can be referenced by c
 	
 	// A reference to our box2d world
@@ -24,6 +21,7 @@ public class CollisionBehaviour2 extends Behaviour {
 	static private int box2dFrameCount; // used to make sure box2d is stepped through only once per frame.
 
 	private org.jbox2d.dynamics.Body body;
+	private List<Updateable> updateList = new ArrayList<Updateable>();
 	
 	public CollisionBehaviour2(Creature _creature) {
 		super(_creature);
@@ -40,73 +38,10 @@ public class CollisionBehaviour2 extends Behaviour {
 		box2dFrameCount = 1;
 	}
 	
-	
-	private void addAConstraint() {
-		// left boundary
-		new Boundary(World.getScreenWidth()-5, World.getScreenHeight()/2, 10, World.getScreenHeight());
-		// right boundary
-		new Boundary(5, World.getScreenHeight()/2, 10, World.getScreenHeight());
-//		// top boundary
-		new Boundary(World.getScreenWidth()/2, 5, World.getScreenWidth(), 10);
-//		// bottom boundary
-		new Boundary(World.getScreenWidth()/2, World.getScreenHeight()-5, World.getScreenWidth(), 10);
-	}
-	
-	
-	class Boundary implements Updateable {
-		
-		// I THINK im having a problem here because this is not a creature.
-		// in PContactListener() it wants, for each creature, to check if CollisionBehaviour2 exists
-		// then it checks to see if an addContact method exists for it or something.
-		
-		float x, y, w, h;
-		org.jbox2d.dynamics.Body b;
-		
-		Boundary(float _x, float _y, float _w, float _h) {
-			x = _x;
-			y = _y;
-			w = _w;
-			h = _h;
-			
-			PolygonDef polygon = new PolygonDef();
-			
-			float box2dW = box2d.scalarPixelsToWorld(w/2);
-			float box2dH = box2d.scalarPixelsToWorld(h/2);
-			polygon.density = 0;    // No density means it won't move!
-			polygon.friction = 0.3f;
-			polygon.setAsBox(box2dW, box2dH);
-			
-			BodyDef bd = new BodyDef();
-			
-			Vec2 posInBox2dWorld = box2d.coordPixelsToWorld(new PVector(x,y));
-			//bd.position.set(new Vec2(x,y));
-			bd.position.set(posInBox2dWorld);
-			
-			org.jbox2d.dynamics.Body constraint = box2d.createBody(bd);
-			constraint.createShape(polygon);
-			addToUpdate(this);
-		}
-		
-		public void update() {}
-		
-		public void draw() {
-		    p.pushStyle();
-		    p.fill(0);
-		    p.stroke(0);
-		    p.rectMode(p.CENTER);
-		    p.rect(x,y,w,h);
-		    p.popStyle();
-		}
-		
-	}
-	
 	private void addToUpdate(Updateable o) {
 		// observer pattern. Used to register update() and draw() methods within the passed object.
 		updateList.add(o);
 	}
-	
-	private List<Updateable> updateList = new ArrayList<Updateable>();
-	
 	
 	
 	private void addToBox2dWorld() {
@@ -121,21 +56,17 @@ public class CollisionBehaviour2 extends Behaviour {
 	    float box2dH = box2d.scalarPixelsToWorld(c.getBody().getHeight()/2);
 	    sd.setAsBox(box2dW, box2dH);
 	    // Parameters that affect physics
-	    // TODO::
-	    sd.density = 4.5f;
-	    sd.friction = 4.03f;
-	    sd.restitution = 0.8f; // bounce off other objects?
+	    sd.density = 1f;
+	    sd.friction = .03f;
+	    sd.restitution = 0.85f; // bounce off other objects
 
 	    // Attach that shape to our body!
 	    body.createShape(sd);
 	    
-	    //TODO: necessary?
 	    body.setMassFromShapes();
-	    
 	    // add application-specific body data. Box2d body now knows the creature it is attached to.
 	    // can be retrieved by casting body.getUserData() to Creature.
 	    body.setUserData(c);
-	    
 
 	    // Give it some initial random velocity
 	    body.setLinearVelocity(new Vec2(p.random(-10,10),p.random(4,6)));
@@ -149,7 +80,6 @@ public class CollisionBehaviour2 extends Behaviour {
 		if(p.frameCount == box2dFrameCount) {
 			box2dFrameCount++;
 			box2d.step();
-//			System.out.println(box2d.world.getBodyCount());
 		}
 		move();
 		
@@ -220,8 +150,6 @@ public class CollisionBehaviour2 extends Behaviour {
 	}
 	
 	static private void collisionAction(Creature c) {
-		// TODO:: is THIS, the class we're in (CollisionBehaviour2), or c? MAKE SURE ITS CollisionBehaviour2!!
-		// otherwise just write the damn thing out: (CollisionBehaviour2.class());
 		CollisionBehaviour2 collisionBehaviourForCreature = (CollisionBehaviour2) c.getBehaviourManager().getBehaviours().get(CollisionBehaviour2.class);
 		collisionBehaviourForCreature.collisionAction();
 	}
@@ -229,7 +157,6 @@ public class CollisionBehaviour2 extends Behaviour {
 	private void collisionAction() {
 		c.getBody().setColor(0xFFFF0000); // hexadecimal colour: 0x[alpha][red][green][blue]
 	}
-	
 	
 	@Override
 	protected void move() {
@@ -244,25 +171,77 @@ public class CollisionBehaviour2 extends Behaviour {
 	@Override
 	public void moveTo(PVector loc) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void startMove() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void stopMove() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void freeze() {
 		// TODO Auto-generated method stub
-
 	}
 
+	
+	private void addAConstraint() {
+		// left boundary
+		new Boundary(World.getScreenWidth()-5, World.getScreenHeight()/2, 10, World.getScreenHeight());
+		// right boundary
+		new Boundary(5, World.getScreenHeight()/2, 10, World.getScreenHeight());
+//		// top boundary
+		new Boundary(World.getScreenWidth()/2, 5, World.getScreenWidth(), 10);
+//		// bottom boundary
+		new Boundary(World.getScreenWidth()/2, World.getScreenHeight()-5, World.getScreenWidth(), 10);
+	}
+	
+	class Boundary implements Updateable {
+		
+		float x, y, w, h;
+		org.jbox2d.dynamics.Body b;
+		
+		Boundary(float _x, float _y, float _w, float _h) {
+			x = _x;
+			y = _y;
+			w = _w;
+			h = _h;
+			
+			PolygonDef polygon = new PolygonDef();
+			
+			float box2dW = box2d.scalarPixelsToWorld(w/2);
+			float box2dH = box2d.scalarPixelsToWorld(h/2);
+			polygon.density = 0;    // No density means it won't move!
+			polygon.friction = 0.3f;
+			polygon.setAsBox(box2dW, box2dH);
+			
+			BodyDef bd = new BodyDef();
+			
+			Vec2 posInBox2dWorld = box2d.coordPixelsToWorld(new PVector(x,y));
+			bd.position.set(posInBox2dWorld);
+			
+			org.jbox2d.dynamics.Body constraint = box2d.createBody(bd);
+			constraint.createShape(polygon);
+			
+			addToUpdate(this);
+		}
+		
+		public void update() {}
+		
+		public void draw() {
+		    p.pushStyle();
+		    p.fill(0);
+		    p.stroke(0);
+		    p.rectMode(p.CENTER);
+		    p.rect(x,y,w,h);
+		    p.popStyle();
+		}
+		
+	}
+	
+	
 }
