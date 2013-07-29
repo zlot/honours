@@ -20,15 +20,14 @@ public class SquareThing extends Creature {
 
 	@Override
 	protected void createParts() {
-		float r = p.random(10, 100);
+		float r = p.random(40, 60);
+		r = 40;
 		body = new SquareThingBody(pos, r, r);
 	}
 
 	@Override
 	protected void addBehaviours() {
-		// TODO Auto-generated method stub
 		addBehaviour(new CollisionBehaviour2(this));
-		
 	}
 
 }

@@ -34,10 +34,9 @@ public class CollisionBehaviour2 extends Behaviour {
 			// Turn on collision listening!
 			box2d.listenForCollisions();
 			box2d.setGravity(0, 0);
-			//addAConstraint();
+			addAConstraint();
 		}
 		addToBox2dWorld();
-		System.out.println("I GET RUN HOW MANY TIMES?");
 		box2dFrameCount = 1;
 	}
 	
@@ -46,11 +45,11 @@ public class CollisionBehaviour2 extends Behaviour {
 		// left boundary
 		new Boundary(World.getScreenWidth()-5, World.getScreenHeight()/2, 10, World.getScreenHeight());
 		// right boundary
-//		new Boundary(5, World.getScreenHeight()/2, 10, World.getScreenHeight());
+		new Boundary(5, World.getScreenHeight()/2, 10, World.getScreenHeight());
 //		// top boundary
-//		new Boundary(World.getScreenWidth()/2, 5, World.getScreenWidth(), 10);
+		new Boundary(World.getScreenWidth()/2, 5, World.getScreenWidth(), 10);
 //		// bottom boundary
-//		new Boundary(World.getScreenWidth()/2, World.getScreenHeight()-5, World.getScreenWidth(), 10);
+		new Boundary(World.getScreenWidth()/2, World.getScreenHeight()-5, World.getScreenWidth(), 10);
 	}
 	
 	
@@ -111,15 +110,9 @@ public class CollisionBehaviour2 extends Behaviour {
 	
 	
 	private void addToBox2dWorld() {
-		System.out.println(box2d.world.getBodyCount());
 		BodyDef bd = new BodyDef();
-		System.out.println(box2d.world.getBodyCount());
 		bd.position.set(box2d.coordPixelsToWorld(c.getPos()));
-		System.out.println(box2d.world.getBodyCount());
 		body = box2d.createBody(bd);
-		System.out.println(box2d.world.getBodyCount());
-		
-		
 		
 	    // Define the shape -- a polygon (this is what we use for a rectangle)
 	    PolygonDef sd = new PolygonDef();
@@ -129,9 +122,9 @@ public class CollisionBehaviour2 extends Behaviour {
 	    sd.setAsBox(box2dW, box2dH);
 	    // Parameters that affect physics
 	    // TODO::
-	    sd.density = .5f;
+	    sd.density = 4.5f;
 	    sd.friction = 0.3f;
-	    sd.restitution = 0.5f;
+	    sd.restitution = 0.8f; // bounce off other objects?
 
 	    // Attach that shape to our body!
 	    body.createShape(sd);
@@ -175,6 +168,7 @@ public class CollisionBehaviour2 extends Behaviour {
 			p.fill(0);
 			// transform from box2d world to pixel space
 			PVector pixelSpace = box2d.coordWorldToPixelsPVector(pos);
+			p.rectMode(p.CENTER);
 			p.rect(pixelSpace.x, pixelSpace.y, 10, 10);
 			p.popStyle();
 			b = b.getNext();
@@ -195,10 +189,35 @@ public class CollisionBehaviour2 extends Behaviour {
 	  Creature c1 = (Creature) b1.getUserData();
 	  Creature c2 = (Creature) b2.getUserData();
 	  
-	  collisionAction(c1);
-	  collisionAction(c2);
+	  // if c1 and c2 are creatures, then run collisionAction
+	  if(c1 instanceof Creature && c2 instanceof Creature) {
+		  collisionAction(c1);
+		  collisionAction(c2);
+	  } else {
+		  // else, it could be a collision between creature and boundary; do nothing for now.
+	  }
 
 	}	
+	
+	static public void removeContact(ContactPoint cp) {
+		  // Get both shapes
+		  Shape s1 = cp.shape1;
+		  Shape s2 = cp.shape2;
+		  // Get both bodies
+		  org.jbox2d.dynamics.Body b1 = s1.getBody();
+		  org.jbox2d.dynamics.Body b2 = s2.getBody();
+		  
+		  // Get our objects that reference these bodies
+		  Creature c1 = (Creature) b1.getUserData();
+		  Creature c2 = (Creature) b2.getUserData();
+		  
+		  if(c1 instanceof Creature && c2 instanceof Creature) {
+				c1.getBody().setColor(0xFF00FF00); // hexadecimal colour: 0x[alpha][red][green][blue]
+				c2.getBody().setColor(0xFF00FF00); // hexadecimal colour: 0x[alpha][red][green][blue]
+		  } else {
+			  // else, it could be a collision between creature and boundary; do nothing for now.
+		  }
+	}
 	
 	static private void collisionAction(Creature c) {
 		// TODO:: is THIS, the class we're in (CollisionBehaviour2), or c? MAKE SURE ITS CollisionBehaviour2!!
@@ -215,9 +234,9 @@ public class CollisionBehaviour2 extends Behaviour {
 	@Override
 	protected void move() {
 		// here we place the position from the physics engine, back to the pos of the creature.
-//		Vec2 physicsPos = box2d.getBodyPixelCoord(this.body);
-//		c.getBody().getPos().x = physicsPos.x;
-//		c.getBody().getPos().y = physicsPos.y;
+		Vec2 physicsPos = box2d.getBodyPixelCoord(this.body);
+		c.getBody().getPos().x = physicsPos.x;
+		c.getBody().getPos().y = physicsPos.y;
 	}
 
 	@Override
