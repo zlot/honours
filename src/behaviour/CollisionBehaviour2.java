@@ -33,27 +33,37 @@ public class CollisionBehaviour2 extends Behaviour {
 			box2d.createWorld();
 			// Turn on collision listening!
 			box2d.listenForCollisions();
-			box2d.setGravity(0, 1);
+			box2d.setGravity(0, 0);
+			//addAConstraint();
 		}
 		addToBox2dWorld();
-		
-		addAConstraint();
-		
+		System.out.println("I GET RUN HOW MANY TIMES?");
 		box2dFrameCount = 1;
 	}
 	
 	
 	private void addAConstraint() {
-		new BoxConstraint(World.getScreenWidth()/2, 0, 100, 100);
+		// left boundary
+		new Boundary(World.getScreenWidth()-5, World.getScreenHeight()/2, 10, World.getScreenHeight());
+		// right boundary
+//		new Boundary(5, World.getScreenHeight()/2, 10, World.getScreenHeight());
+//		// top boundary
+//		new Boundary(World.getScreenWidth()/2, 5, World.getScreenWidth(), 10);
+//		// bottom boundary
+//		new Boundary(World.getScreenWidth()/2, World.getScreenHeight()-5, World.getScreenWidth(), 10);
 	}
 	
 	
-	class BoxConstraint implements Updateable {
+	class Boundary implements Updateable {
+		
+		// I THINK im having a problem here because this is not a creature.
+		// in PContactListener() it wants, for each creature, to check if CollisionBehaviour2 exists
+		// then it checks to see if an addContact method exists for it or something.
 		
 		float x, y, w, h;
 		org.jbox2d.dynamics.Body b;
 		
-		BoxConstraint(float _x, float _y, float _w, float _h) {
+		Boundary(float _x, float _y, float _w, float _h) {
 			x = _x;
 			y = _y;
 			w = _w;
@@ -68,7 +78,11 @@ public class CollisionBehaviour2 extends Behaviour {
 			polygon.setAsBox(box2dW, box2dH);
 			
 			BodyDef bd = new BodyDef();
-			bd.position.set(new Vec2(x,y));
+			
+			Vec2 posInBox2dWorld = box2d.coordPixelsToWorld(new PVector(x,y));
+			//bd.position.set(new Vec2(x,y));
+			bd.position.set(posInBox2dWorld);
+			
 			org.jbox2d.dynamics.Body constraint = box2d.createBody(bd);
 			constraint.createShape(polygon);
 			addToUpdate(this);
@@ -97,15 +111,19 @@ public class CollisionBehaviour2 extends Behaviour {
 	
 	
 	private void addToBox2dWorld() {
+		System.out.println(box2d.world.getBodyCount());
 		BodyDef bd = new BodyDef();
+		System.out.println(box2d.world.getBodyCount());
 		bd.position.set(box2d.coordPixelsToWorld(c.getPos()));
+		System.out.println(box2d.world.getBodyCount());
 		body = box2d.createBody(bd);
+		System.out.println(box2d.world.getBodyCount());
+		
+		
+		
 	    // Define the shape -- a polygon (this is what we use for a rectangle)
 	    PolygonDef sd = new PolygonDef();
 	    
-	    
-	    //TODO::: What is scalarPixels to world? why /2? Does this coord stuff have to do
-	    //        with why its not working very well?  
 	    float box2dW = box2d.scalarPixelsToWorld(c.getBody().getWidth()/2);
 	    float box2dH = box2d.scalarPixelsToWorld(c.getBody().getHeight()/2);
 	    sd.setAsBox(box2dW, box2dH);
@@ -132,17 +150,13 @@ public class CollisionBehaviour2 extends Behaviour {
 		
 	}
 
-	
-	// TODO:::: next, getting the positions of the things to conform to the physics engine!!
-	// TODO:::: it seems like only the last (or the first?) creature has any physics properties.
-	//             figure out why this is!!
-	
 	@Override
 	public void update() {
 		// We must always step through time!
 		if(p.frameCount == box2dFrameCount) {
 			box2dFrameCount++;
 			box2d.step();
+//			System.out.println(box2d.world.getBodyCount());
 		}
 		move();
 		
@@ -150,6 +164,22 @@ public class CollisionBehaviour2 extends Behaviour {
 			o.update();
 			o.draw();
 		}
+		
+		// returns head of the world body list (as a body).
+		// use Body.getNext() to get the next body in the world list.
+		org.jbox2d.dynamics.Body b = box2d.world.getBodyList();
+		while(b != null) {
+			Vec2 pos = b.getPosition();
+			// draw box at position
+			p.pushStyle();
+			p.fill(0);
+			// transform from box2d world to pixel space
+			PVector pixelSpace = box2d.coordWorldToPixelsPVector(pos);
+			p.rect(pixelSpace.x, pixelSpace.y, 10, 10);
+			p.popStyle();
+			b = b.getNext();
+		}
+
 	}
 
 	// Collision event functions!
@@ -185,9 +215,9 @@ public class CollisionBehaviour2 extends Behaviour {
 	@Override
 	protected void move() {
 		// here we place the position from the physics engine, back to the pos of the creature.
-		Vec2 physicsPos = box2d.getBodyPixelCoord(this.body);
-		c.getBody().getPos().x = physicsPos.x;
-		c.getBody().getPos().y = physicsPos.y;
+//		Vec2 physicsPos = box2d.getBodyPixelCoord(this.body);
+//		c.getBody().getPos().x = physicsPos.x;
+//		c.getBody().getPos().y = physicsPos.y;
 	}
 
 	@Override
