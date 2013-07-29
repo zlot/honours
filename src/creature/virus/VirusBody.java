@@ -13,10 +13,12 @@ public class VirusBody extends Body {
 
 	@Override
 	public void draw() {
-	  // ellipse, with pos at center
-	  //p.fill(0, 80, 80);
-	  p.fill(color);
-	  p.ellipse(pos.x, pos.y, width, width);
+		// ellipse, with pos at center
+		//p.fill(0, 80, 80);
+		p.pushStyle();
+		p.fill(color);
+		p.ellipse(0, 0, width, width);
+		p.popStyle();
 	}
 
 	@Override

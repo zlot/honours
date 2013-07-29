@@ -18,8 +18,12 @@ public class Virus extends Creature {
 	  
 	  public void draw() {
 		  // TODO:: incorporate this up a step into Creature.
-		  body.draw();
-		  limbManager.draw();
+		  p.pushMatrix();
+			p.translate(getPos().x, getPos().y);
+		  	p.rotate(-angle); // has to be -angle. Why? I don't know.
+			body.draw();
+			limbManager.draw();
+		  p.popMatrix();
 	  }
 	  
 	  protected void createParts() {

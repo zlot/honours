@@ -49,7 +49,8 @@ public class CollisionBehaviour2 extends Behaviour {
 		bd.position.set(box2d.coordPixelsToWorld(c.getPos()));
 		body = box2d.createBody(bd);
 		
-	    // Define the shape -- a polygon (this is what we use for a rectangle)
+		// Define the shape -- a polygon (this is what we use for a rectangle)
+		defineSquareShape();
 	    PolygonDef sd = new PolygonDef();
 	    
 	    float box2dW = box2d.scalarPixelsToWorld(c.getBody().getWidth()/2);
@@ -71,6 +72,13 @@ public class CollisionBehaviour2 extends Behaviour {
 	    // Give it some initial random velocity
 	    body.setLinearVelocity(new Vec2(p.random(-10,10),p.random(4,6)));
 	    body.setAngularVelocity(p.random(-5,5));
+	}
+	
+	private void defineSquareShape() {
+		
+	}
+	
+	private void defineEllipseShape() {
 		
 	}
 

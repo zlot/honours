@@ -41,9 +41,9 @@ public class World extends PClass {
 //			populationDirector.addCreature(v);
 //		}
 		
-	//	populationDirector.addCreatures(new Virus(), 1);
+		populationDirector.addCreatures(Virus.class, 6);
 		
-		populationDirector.addCreatures(SquareThing.class, 14);
+//		populationDirector.addCreatures(SquareThing.class, 14);
 		
 		// for all creatures, add their behaviours to behaviourDirector
 		// this could probably be included as part of instantiation of behaviourDirector singleton.
