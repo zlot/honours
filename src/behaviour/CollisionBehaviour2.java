@@ -123,7 +123,7 @@ public class CollisionBehaviour2 extends Behaviour {
 	    // Parameters that affect physics
 	    // TODO::
 	    sd.density = 4.5f;
-	    sd.friction = 0.3f;
+	    sd.friction = 4.03f;
 	    sd.restitution = 0.8f; // bounce off other objects?
 
 	    // Attach that shape to our body!
@@ -235,6 +235,8 @@ public class CollisionBehaviour2 extends Behaviour {
 	protected void move() {
 		// here we place the position from the physics engine, back to the pos of the creature.
 		Vec2 physicsPos = box2d.getBodyPixelCoord(this.body);
+		float a = body.getAngle(); // already in radians it seems
+		c.setAngle(a);
 		c.getBody().getPos().x = physicsPos.x;
 		c.getBody().getPos().y = physicsPos.y;
 	}

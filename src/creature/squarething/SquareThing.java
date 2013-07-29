@@ -15,7 +15,12 @@ public class SquareThing extends Creature {
 
 	@Override
 	public void draw() {
+	 // TODO:: incorporate this up a step into Creature.
+	  p.pushMatrix();
+		p.translate(getPos().x, getPos().y);
+	  	p.rotate(angle);
 		body.draw();
+	  p.popMatrix();
 	}
 
 	@Override

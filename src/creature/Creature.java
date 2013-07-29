@@ -6,6 +6,7 @@ import loader.PClass;
 public abstract class Creature extends PClass {
 
 	protected PVector pos = null; // pointing to same instance as body pos.
+	protected float angle; // angle in radians.
 	protected Body body = null;
 	protected LimbManager limbManager = null;
 	
@@ -44,6 +45,14 @@ public abstract class Creature extends PClass {
 	public PVector getPos() {
 		return pos;
 	}
+	public float getAngle() {
+		return angle;
+	}
+	public void setAngle(float _angle) {
+		angle = _angle;
+	}
+	
+	
 	public boolean hasLimbManager() {
 		return limbManager == null ? false : true;
 	}

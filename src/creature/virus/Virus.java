@@ -17,6 +17,7 @@ public class Virus extends Creature {
 	  }
 	  
 	  public void draw() {
+		  // TODO:: incorporate this up a step into Creature.
 		  body.draw();
 		  limbManager.draw();
 	  }
