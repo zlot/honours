@@ -14,17 +14,22 @@ import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
 
 public class CollisionBehaviour2 extends Behaviour {
-	// width and height can be referenced by c
-	
-	// A reference to our box2d world
+	// width and height can be referenced by c.
+	// A static reference to our box2d world
 	static public PBox2D box2d;
-	static private int box2dFrameCount; // used to make sure box2d is stepped through only once per frame.
-
 	private org.jbox2d.dynamics.Body body;
 	private List<Updateable> updateList = new ArrayList<Updateable>();
+
+	static private int box2dFrameCount; // used to make sure box2d is stepped through only once per frame.
+
+	/* Defines how box2d defines collision shape*/
+	public enum CreatureShape {SQUARE, CIRCLE};
+
+	private CreatureShape creatureShape;
 	
-	public CollisionBehaviour2(Creature _creature) {
+	public CollisionBehaviour2(Creature _creature, CreatureShape _creatureShapeEnum) {
 		super(_creature);
+		creatureShape = _creatureShapeEnum;
 		// create box2D world if not created already (lazy instantiation)
 		if(box2d == null) {
 			box2d = new PBox2D(p);
@@ -50,11 +55,21 @@ public class CollisionBehaviour2 extends Behaviour {
 		bd.position.set(box2d.coordPixelsToWorld(c.getPos()));
 		body = box2d.createBody(bd);
 		
-		// Define the shape -- a polygon (this is what we use for a rectangle)
-		//Shape shape = defineSquareShape();
+		Shape shape;
 		
-		// Definte the shape
-		Shape shape = defineCircleShape();
+		// Define the shape
+		switch (creatureShape) {
+		case CIRCLE:
+			shape = defineCircleShape();
+			break;
+		case SQUARE:
+			shape = defineSquareShape();
+			break;
+		default:
+			shape = defineSquareShape();
+			break;
+		}
+		
 		
 		
 	    FixtureDef fixtureDef = new FixtureDef();
@@ -80,19 +95,16 @@ public class CollisionBehaviour2 extends Behaviour {
 	}
 	
 	private Shape defineSquareShape() {
-	    PolygonShape polygonShape = new PolygonShape();
 	    float box2dW = box2d.scalarPixelsToWorld(c.getBody().getWidth()/2);
 	    float box2dH = box2d.scalarPixelsToWorld(c.getBody().getHeight()/2);
+	    PolygonShape polygonShape = new PolygonShape();
 	    polygonShape.setAsBox(box2dW, box2dH);
-	    
 	    return polygonShape;
 	}
-	
 	private Shape defineCircleShape() {
-		CircleShape circleShape = new CircleShape();
 		float box2dR = box2d.scalarPixelsToWorld(c.getBody().getWidth()/2);
+		CircleShape circleShape = new CircleShape();
 		circleShape.setRadius(box2dR);
-		
 		return circleShape;
 	}
 

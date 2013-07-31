@@ -32,7 +32,7 @@ public class SquareThing extends Creature {
 
 	@Override
 	protected void addBehaviours() {
-		addBehaviour(new CollisionBehaviour2(this));
+		addBehaviour(new CollisionBehaviour2(this, CollisionBehaviour2.CreatureShape.SQUARE));
 	}
 
 }
