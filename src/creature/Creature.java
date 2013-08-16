@@ -4,6 +4,7 @@ import processing.core.PVector;
 import loader.PClass;
 
 public abstract class Creature extends PClass {
+	public float hithere;
 
 	protected PVector pos = null; // pointing to same instance as body pos.
 	protected float angle; // angle in radians.
@@ -20,11 +21,13 @@ public abstract class Creature extends PClass {
 		behaviourManager = new BehaviourManager(this);
 	}
 	
-	public abstract void draw();
-	
 	protected abstract void createParts();
 	
 	protected abstract void addBehaviours();
+	
+	public abstract void draw();
+	
+	
 	
 	protected void addBehaviour(Behaviour b) {
 		behaviourManager.add(b);

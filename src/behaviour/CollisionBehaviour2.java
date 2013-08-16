@@ -22,6 +22,11 @@ public class CollisionBehaviour2 extends Behaviour {
 
 	static private int box2dFrameCount; // used to make sure box2d is stepped through only once per frame.
 
+//	static {
+//		System.out.println("HHHH");
+//	}
+	
+	
 	/* Defines how box2d defines collision shape*/
 	public enum CreatureShape {SQUARE, CIRCLE};
 
@@ -37,7 +42,7 @@ public class CollisionBehaviour2 extends Behaviour {
 			// Turn on collision listening!
 			box2d.listenForCollisions();
 			box2d.setGravity(0, 0);
-			addAConstraint();
+			addWorldBorders();
 		}
 		addToBox2dWorld();
 		box2dFrameCount = 1;
@@ -48,7 +53,6 @@ public class CollisionBehaviour2 extends Behaviour {
 		updateList.add(o);
 	}
 	
-	
 	private void addToBox2dWorld() {
 		BodyDef bd = new BodyDef();
 		bd.type = BodyType.DYNAMIC;
@@ -57,7 +61,7 @@ public class CollisionBehaviour2 extends Behaviour {
 		
 		Shape shape;
 		
-		// Define the shape
+		// Define the shape for collision detection
 		switch (creatureShape) {
 		case CIRCLE:
 			shape = defineCircleShape();
@@ -69,7 +73,6 @@ public class CollisionBehaviour2 extends Behaviour {
 			shape = defineSquareShape();
 			break;
 		}
-		
 		
 		
 	    FixtureDef fixtureDef = new FixtureDef();
@@ -220,19 +223,18 @@ public class CollisionBehaviour2 extends Behaviour {
 	}
 
 	
-	private void addAConstraint() {
+	private void addWorldBorders() {
 		// left boundary
 		new Boundary(World.getScreenWidth()-5, World.getScreenHeight()/2, 10, World.getScreenHeight());
 		// right boundary
 		new Boundary(5, World.getScreenHeight()/2, 10, World.getScreenHeight());
-//		// top boundary
+		// top boundary
 		new Boundary(World.getScreenWidth()/2, 5, World.getScreenWidth(), 10);
-//		// bottom boundary
+		// bottom boundary
 		new Boundary(World.getScreenWidth()/2, World.getScreenHeight()-5, World.getScreenWidth(), 10);
 	}
 	
 	class Boundary implements Updateable {
-		
 		float x, y, w, h;
 		org.jbox2d.dynamics.Body b;
 		
@@ -242,29 +244,26 @@ public class CollisionBehaviour2 extends Behaviour {
 			w = _w;
 			h = _h;
 			
-//			PolygonDef polygon = new PolygonDef();
-			
-			// shape
+			// Create shape
 			PolygonShape polyShape = new PolygonShape();
 			float box2dW = box2d.scalarPixelsToWorld(w/2);
 			float box2dH = box2d.scalarPixelsToWorld(h/2);
 			polyShape.setAsBox(box2dW, box2dH);
 			
-			// shape to fixture
+			// Attach shape to fixture
 			FixtureDef fixtureDef = new FixtureDef();
 			fixtureDef.shape = polyShape;
-			
-			// fixture to body
 			
 			fixtureDef.density = 0;    // No density means it won't move!
 			fixtureDef.friction = 0.3f;
 
+			// Define a body
 			BodyDef bodyDef = new BodyDef();
-			
 			Vec2 posInBox2dWorld = box2d.coordPixelsToWorld(new PVector(x,y));
 			bodyDef.position.set(posInBox2dWorld);
-			
+			// Create a body in box2d world using body definition
 			org.jbox2d.dynamics.Body body = box2d.createBody(bodyDef);
+			// Attach fixture to body
 			body.createFixture(fixtureDef);
 			
 			addToUpdate(this);

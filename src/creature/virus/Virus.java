@@ -36,8 +36,8 @@ public class Virus extends Creature {
 	  protected void addBehaviours() {
 //		  if(p.random(1) < 0.75) addBehaviour(new CollisionBehaviour(this));
 		  
-//		  addBehaviour(new MoveBehaviour(this));
-		  addBehaviour(new CollisionBehaviour2(this, CollisionBehaviour2.CreatureShape.CIRCLE));
+		  addBehaviour(new MoveBehaviour(this));
+//		  addBehaviour(new CollisionBehaviour2(this, CollisionBehaviour2.CreatureShape.CIRCLE));
 	  }
 	  
 	}
