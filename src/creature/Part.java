@@ -10,6 +10,8 @@ public abstract class Part extends PClass {
 	// also, what if we want more behaviours per part?
 	// e.g. a 'push-if-collide' behaviour, + a move behaviour, + a hunt behaviour
 	
+	protected int color; // hexadecimal colour: 0x[alpha][red][green][blue]
+	
 	Part(PVector _pos) {
 		pos = _pos;
 	}
@@ -38,4 +40,6 @@ public abstract class Part extends PClass {
 	public PVector getPos() {
 		return pos;
 	}
+	
+	public abstract void setColor(int color);
 }

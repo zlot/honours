@@ -1,6 +1,7 @@
 package creature;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import loader.PClass;
 
@@ -8,22 +9,17 @@ public class BehaviourManager extends PClass {
 
 	protected Creature creature; // reference to creature that BehaviourManager belongs to.
 	
-	protected ArrayList<Behaviour> behaviours = new ArrayList<Behaviour>();
-	
-	protected Behaviour behaviour = null; // currently active behaviour
+	protected Map<Class<? extends Behaviour>, Behaviour> behaviours = new HashMap<Class<? extends Behaviour>, Behaviour>();
 	
 	public BehaviourManager(Creature _c) {
 		creature = _c;
 	}
 	
 	public void add(Behaviour b) {
-		behaviours.add(b);
-	}
-	public void setBehaviour(Behaviour _b) {
-		behaviour = _b;
+		behaviours.put(b.getClass(), b);
 	}
 	
-	public ArrayList<Behaviour> getBehaviours() {
+	public Map<Class<? extends Behaviour>, Behaviour> getBehaviours() {
 		return behaviours;
 	}
 }

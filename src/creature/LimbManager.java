@@ -9,8 +9,6 @@ public abstract class LimbManager extends PClass {
 	
 	protected ArrayList<Limb> limbs = new ArrayList<Limb>();
 	
-//	protected Behaviour limbBehaviour;
-	
 	public LimbManager(Creature _c) {
 		creature = _c;
 	}
