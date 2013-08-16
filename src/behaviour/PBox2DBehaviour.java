@@ -18,7 +18,6 @@ public class PBox2DBehaviour extends Behaviour {
 	// A static reference to our box2d world
 	static public PBox2D box2d;
 	private org.jbox2d.dynamics.Body body;
-	private List<Updateable> updateList = new ArrayList<Updateable>();
 
 	static private int box2dFrameCount; // used to make sure box2d is stepped through only once per frame.
 
@@ -50,7 +49,7 @@ public class PBox2DBehaviour extends Behaviour {
 	
 	private void addToUpdate(Updateable o) {
 		// observer pattern. Used to register update() and draw() methods within the passed object.
-		updateList.add(o);
+		getUpdateables().add(o);
 	}
 	
 	private void addToBox2dWorld() {
@@ -120,10 +119,12 @@ public class PBox2DBehaviour extends Behaviour {
 		}
 		move();
 		
-		for(Updateable o : updateList) {
-			o.update();
-			o.draw();
-		}
+		updateUpdateables();
+		
+//		for(Updateable o : updateList) {
+//			o.update();
+//			o.draw();
+//		}
 		
 		// returns head of the world body list (as a body).
 		// use Body.getNext() to get the next body in the world list.

@@ -1,5 +1,8 @@
 package creature;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import loader.PClass;
 import processing.core.PVector;
 
@@ -15,7 +18,10 @@ public abstract class Behaviour extends PClass {
 	// to always have an accessible noise value to use thats unique.
 
 	protected Creature creature; // reference to creature instance
+	private List<Updateable> updateables = new ArrayList<Updateable>();
 	
+	
+
 	// behaviour should register existence to BehaviourDirector.
 	// observer pattern. BehaviourDirector controlls this.
 	// but maybe we need a mediator or proxy here? A BehaviourManager?
@@ -23,6 +29,18 @@ public abstract class Behaviour extends PClass {
 	public Behaviour(Creature _creature) {
 		creature = _creature;
 	}
+	
+	public void updateUpdateables() {
+		for(Updateable o : updateables) {
+			o.update();
+			o.draw();
+		}
+	}
+	
+	public List<Updateable> getUpdateables() {
+		return updateables;
+	}
+	
 	
 	public abstract void update();
 	
