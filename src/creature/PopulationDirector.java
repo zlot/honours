@@ -24,10 +24,11 @@ public class PopulationDirector extends PClass {
 	public void addCreature(Creature c) {
 		creatures.add(c);
 	}
-	public void addCreatures(Creature c, int numOfCreatures) {
+	public void addCreatures(Class<? extends Creature> creatureClass, int numOfCreatures) {
+		Creature c = null;
 		for(int i=0; i<numOfCreatures; i++) {
 			try {
-				c = c.getClass().newInstance();
+				c = creatureClass.newInstance();
 			} catch (Exception e) {e.printStackTrace();}
 			creatures.add(c);
 		}
@@ -43,8 +44,7 @@ public class PopulationDirector extends PClass {
 			}
 //			for(Behaviour b : c.getBehaviourManager().getBehaviours())
 //				b.update();
-			c.getBody().update(); // runs BoundingBox stuff (for now)
-			c.getLimbManager().update(); // update limbs. This may or may not do anything
+			if(c.getLimbManager() != null) c.getLimbManager().update(); // update limbs. This may or may not do anything
 										 // depending on the implemenation of the limb.
 		}
 		/* Draw all creatures */

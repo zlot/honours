@@ -1,8 +1,8 @@
 package main;
-import java.util.ArrayList;
-import java.util.List;
 import creature.*;
 import creature.virus.*;
+import creature.worm.Worm;
+import creature.millipede.Millipede;
 import creature.squarething.*;
 import loader.PClass;
 
@@ -18,9 +18,9 @@ public class World extends PClass {
 	
 	
 	public World() {
-		width = 550;
-		height = 550;
-		p.size(width, height);
+		width = 1050;
+		height = 900;
+		p.size(width, height, p.P2D);
 		p.colorMode(p.HSB, 360, 100, 100);
 		bgColor = p.color(240, 40, 40);
 		p.noFill();
@@ -43,8 +43,14 @@ public class World extends PClass {
 //			populationDirector.addCreature(v);
 //		}
 		
-		populationDirector.addCreatures(new Virus(), 7);
+		populationDirector.addCreatures(Virus.class, 9);
 		
+//	 	populationDirector.addCreatures(SquareThing.class, 25);
+		
+//	 	populationDirector.addCreatures(Millipede.class, 4);
+
+//	 	populationDirector.addCreatures(Worm.class, 16);
+	 	
 		// for all creatures, add their behaviours to behaviourDirector
 		// this could probably be included as part of instantiation of behaviourDirector singleton.
 		// NOTE: remember if I do this, have to make singleton pattern thread-safe! See book.
@@ -64,7 +70,6 @@ public class World extends PClass {
 		// refresh background
 		p.fill(bgColor);
 		p.rect(0,0,width,height);
-		
 		populationDirector.update();
 		
 	}

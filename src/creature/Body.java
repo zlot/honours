@@ -17,9 +17,6 @@ public abstract class Body extends Part {
 	
 	public abstract void draw();
 	
-	public void update() {
-	}
-	
 	public void setWidth(float _width) {
 		width = _width;
 	}

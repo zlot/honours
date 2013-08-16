@@ -24,7 +24,24 @@ public abstract class Limb extends Part {
 	
 	public abstract void update();
 	
-    public float getAngle() {
+	public void setAngle(float _ang) {
+		ang = _ang;
+	}
+	
+	
+	// TEMP ONLY
+	public float ang2;
+	public float ang3;
+	
+	public void setAngle2(float _ang2) {
+		ang2 = _ang2;
+	}
+	public void setAngle3(float _ang3) {
+		ang3 = _ang3;
+	}
+	
+	
+	public float getAngle() {
     	return ang;
     }
     

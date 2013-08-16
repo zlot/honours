@@ -8,8 +8,6 @@ public class Tentacle extends Limb {
 
 	  float tOffset; // special offset to make this tentacle unique.
 
-	  // float r; // radius of tentacle /// COULD BE SELECTED FOR PARAMETER CONTROL
-	  
 	  // AABB maybe? so instead of r for radius and length, we can use the width/height
 	  // of the AABB?
 
@@ -63,5 +61,10 @@ public class Tentacle extends Limb {
 //	  @Override
 	  public void update() {
 	  }
+
+
+	@Override
+	public void setColor(int color) {
+	}
 	  
 }
