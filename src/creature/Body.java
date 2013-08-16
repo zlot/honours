@@ -6,70 +6,37 @@ public abstract class Body extends Part {
 
 	protected float width, height;
 	
-	AABB aabb2; // the aabb2 is always in world space.
 	AABB aabb; // aabb for body. needs: farthest top, right, bottom, left values. how to get these?
-	// the bounding box actually has to be in WORLD SPACE.
-	// does this mean it must get updated every frame?
 	
-	protected Body(PVector _pos) {
+	protected Body(PVector _pos, float _width, float _height) {
 		super(_pos);
+		width = _width;
+		height = _height;
+		setAABB(_width, _height);
 	}
 	
 	public abstract void draw();
 	
-	
-	///// note::: have to understand how im going to do the AABB thing.
-	//// does it belong here, or in its own behaviour attached to Creature.
-	//// probably as its own behaviour attached to creature.```
-	public void update() {
-		//super.update();
-		// the aabb2 is always in world space.
-		
-		PVector worldaabb = PVector.add(aabb.lowerBound, pos);
-		
-		aabb2.lowerBound.x = worldaabb.x;
-		aabb2.lowerBound.y = worldaabb.y;
-		
-		worldaabb = PVector.add(aabb.upperBound, pos);
-		
-		aabb2.upperBound.x = worldaabb.x;
-		aabb2.upperBound.y = worldaabb.y;
-		
-	}
-	
 	public void setWidth(float _width) {
 		width = _width;
-		setBoundingBox();
 	}
 	public void setHeight(float _height) {
 		height = _height;
-		setBoundingBox();
 	}
+	public void setAABB(float width, float height) {
+		PVector lowerVertex = new PVector(-width/2, height/2);
+		PVector upperVertex = new PVector(width/2, -height/2);
+		aabb = new AABB(lowerVertex, upperVertex);
+	}
+	
 	public float getWidth() {
 		return width;
 	}
 	public float getHeight() {
 		return height;
 	}
-	
-	private void setBoundingBox() {
-		if(width !=0 && height != 0) // only if width/height have been set
-			aabb = new AABB(new PVector(-width/2,height/2), new PVector(width/2,-height/2));
-			aabb2 = new AABB(new PVector(-width/2,height/2), new PVector(width/2,-height/2));
+	public AABB getAABB() {
+		return aabb;
 	}
 	
-	// temporary only
-	public void drawBoundingBox() {
-		p.pushStyle();
-		p.stroke(0, 100, 100);
-		p.noFill();
-		p.rect(aabb2.lowerBound.x, aabb2.upperBound.y, width, height);
-		p.popStyle();
-	}
-	public void drawBoundingBoxCollide() {
-		p.pushStyle();
-		p.fill(0, 100, 100);
-		p.rect(aabb2.lowerBound.x, aabb2.upperBound.y, width, height);
-		p.popStyle();
-	}
 }

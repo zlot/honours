@@ -1,7 +1,8 @@
 package creature;
 
 import java.util.ArrayList;
-
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import loader.PClass;
 
@@ -10,7 +11,7 @@ public class PopulationDirector extends PClass {
 	private static PopulationDirector singleton = new PopulationDirector(); // thread-safe.
 	
 	// List of all creatures in population
-	ArrayList<Creature> creatures;
+	public ArrayList<Creature> creatures;
 
 	private PopulationDirector() {
 		creatures = new ArrayList<Creature>();
@@ -23,10 +24,11 @@ public class PopulationDirector extends PClass {
 	public void addCreature(Creature c) {
 		creatures.add(c);
 	}
-	public void addCreatures(Creature c, int numOfCreatures) {
+	public void addCreatures(Class<? extends Creature> creatureClass, int numOfCreatures) {
+		Creature c = null;
 		for(int i=0; i<numOfCreatures; i++) {
 			try {
-				c = c.getClass().newInstance();
+				c = creatureClass.newInstance();
 			} catch (Exception e) {e.printStackTrace();}
 			creatures.add(c);
 		}
@@ -35,34 +37,19 @@ public class PopulationDirector extends PClass {
 	public void update() {
 		/* Update all behaviours */
 		for(Creature c : creatures) {
-			for(Behaviour b : c.getBehaviourManager().getBehaviours())
-				b.update();
-			c.getBody().update(); // runs BoundingBox stuff (for now)
+
+			// iterate through Map of behaviours.
+			for (Entry<Class<? extends Behaviour>, Behaviour> entry : c.getBehaviourManager().getBehaviours().entrySet()) {
+				entry.getValue().update();
+			}
+//			for(Behaviour b : c.getBehaviourManager().getBehaviours())
+//				b.update();
+			if(c.getLimbManager() != null) c.getLimbManager().update(); // update limbs. This may or may not do anything
+										 // depending on the implemenation of the limb.
 		}
 		/* Draw all creatures */
 		for(Creature c : creatures) {
 			c.draw();
-			c.getBody().drawBoundingBox();
-			
-		}
-		for(int i=0; i<creatures.size(); i++) {
-			Creature c = creatures.get(i);
-			for(int j = i+1; j<creatures.size(); j++) {
-				Creature c2 = creatures.get(j);
-				// test: check if bounding boxes collide
-				if(AABB.testOverlap(c.getBody().aabb2, c2.getBody().aabb2)) {
-					c.getBody().drawBoundingBoxCollide();
-					c2.getBody().drawBoundingBoxCollide();
-				}
-				
-//				if(c.getBody().aabb2.contains(c2.getBody().aabb2)) {
-//					System.out.println("COLLIDED!!");
-//					c.getBody().drawBoundingBoxCollide();
-//					c2.getBody().drawBoundingBoxCollide();
-//				}
-				
-				
-			}
 		}
 	}
 }
