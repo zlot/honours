@@ -11,8 +11,8 @@ import processing.core.PApplet;
 public abstract class PClass {
 
 	protected static PApplet p;
-	protected static int width;
-	protected static int height;
+	private static int width;
+	private static int height;
 	
 	public static boolean insertPApplet(PApplet _p) {
 		if(p == null)
@@ -22,5 +22,12 @@ public abstract class PClass {
 	public static void setWidthAndHeight(int w, int h) {
 		width = w;
 		height = h;
+	}
+	
+	public static float getScreenWidth() {
+		return width;
+	}
+	public static float getScreenHeight() {
+		return height;
 	}
 }
