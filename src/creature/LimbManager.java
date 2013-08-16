@@ -15,24 +15,12 @@ public abstract class LimbManager extends PClass {
 	
 	public abstract void draw();
 	
-	
 	public void update() {
-//		for(Limb l : limbs)
-//			l.update();
-	}
-	
+		// optional override
+	};
 	
 	public abstract void createLimbs();
 	
-//	public void assignBehaviour(Behaviour b) {
-//		// assign all limbs to this behaviour.
-//		for(Limb l : limbs) {
-//			limbBehaviour = b;
-//			l.setBehaviour(b);
-//		}
-//		// this limits all limbs to all use the same behaviour.
-//		// but it makes it easier to swap the behaviour in and out.
-//	}
 	
 	
 	public void add(Limb l) {

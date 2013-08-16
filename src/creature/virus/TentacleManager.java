@@ -28,7 +28,7 @@ public class TentacleManager extends LimbManager {
 	    for(int i=0; i<numTentacles; i++) {
 	    	float ang = p.radians(i*(360/numTentacles) + rndOffset);
 	    	tPos = new PVector(r * p.cos(ang), r * p.sin(ang));
-	    	Tentacle t = new Tentacle(tPos, ang);
+	    	Tentacle t = new Tentacle(creature, tPos, ang);
 	      
 	    	// add to tentacles
 	    	limbs.add(t);

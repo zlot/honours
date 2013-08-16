@@ -3,14 +3,15 @@ package creature.worm;
 import processing.core.PShape;
 import processing.core.PVector;
 import creature.Body;
+import creature.Creature;
 
 public class WormBody extends Body {
 
 	PShape wormBody;
 	int sineDegree; // degrees for wiggle.
 	
-	public WormBody(PVector _pos, float _width, float _height) {
-		super(_pos, _width, _height);
+	public WormBody(Creature _creature, PVector _pos, float _width, float _height) {
+		super(_creature, _pos, _width, _height);
 		setColor(0xff008888);
 		
 		wormBody = p.createShape();

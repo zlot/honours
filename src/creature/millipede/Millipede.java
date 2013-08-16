@@ -5,7 +5,7 @@ import processing.core.PVector;
 import creature.Creature;
 
 public class Millipede extends Creature {
-public float hithere;
+	
 	public Millipede() {
 		super();
 		// somehow should force that pos must be set. Maybe via a thrown exception?
@@ -27,7 +27,7 @@ public float hithere;
 	@Override
 	protected void createParts() {
 		// create body
-		body = new MillipedeBody(pos, 11, 180);
+		body = new MillipedeBody(this, pos, 11, 180);
 		
 		// create feelerManager.
 		limbManager = new FeelerManager(this);

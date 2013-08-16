@@ -11,9 +11,9 @@ public class Tentacle extends Limb {
 	  // AABB maybe? so instead of r for radius and length, we can use the width/height
 	  // of the AABB?
 
-	  public Tentacle(PVector _pos, float _ang) {
-		super(_pos);
-	    ang = _ang;
+	  public Tentacle(Creature _creature, PVector _pos, float _ang) {
+		super(_creature, _pos);
+	    angle = _ang;
 	    height = 16; // COULD BE SELECTED FOR PARAMETER CONTROL.
 	    width = 20; // width being radius of biggest part of tentacle.
 	    

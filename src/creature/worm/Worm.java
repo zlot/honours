@@ -26,7 +26,7 @@ public float hithere;
 	@Override
 	protected void createParts() {
 		// create body
-		body = new WormBody(pos, 11, 180);
+		body = new WormBody(this, pos, 11, 180);
 	}
 
 	@Override

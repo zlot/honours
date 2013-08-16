@@ -42,8 +42,6 @@ public class PopulationDirector extends PClass {
 			for (Entry<Class<? extends Behaviour>, Behaviour> entry : c.getBehaviourManager().getBehaviours().entrySet()) {
 				entry.getValue().update();
 			}
-//			for(Behaviour b : c.getBehaviourManager().getBehaviours())
-//				b.update();
 			if(c.getLimbManager() != null) c.getLimbManager().update(); // update limbs. This may or may not do anything
 										 // depending on the implemenation of the limb.
 		}

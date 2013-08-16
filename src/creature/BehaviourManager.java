@@ -9,6 +9,7 @@ public class BehaviourManager extends PClass {
 
 	protected Creature creature; // reference to creature that BehaviourManager belongs to.
 	
+	// Map of behaviours. Implemented via a HashMap.
 	protected Map<Class<? extends Behaviour>, Behaviour> behaviours = new HashMap<Class<? extends Behaviour>, Behaviour>();
 	
 	public BehaviourManager(Creature _c) {

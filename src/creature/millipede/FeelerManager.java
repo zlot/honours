@@ -10,7 +10,8 @@ import creature.LimbManager;
 public class FeelerManager extends LimbManager {
 
 	AbstractWave sineWave;
-
+	float sineAngle;
+	
 	public FeelerManager(Creature _c) {
 		super(_c);
 		createLimbs();
@@ -20,21 +21,13 @@ public class FeelerManager extends LimbManager {
 
 	@Override
 	public void draw() {
-		MoveBehaviourWithAng m = (MoveBehaviourWithAng) creature.getBehaviourManager().getBehaviours().get(MoveBehaviourWithAng.class);
-
-		float sineAngle = sineWave.update();
-		
-		// TODO: have to find a way to make this a FORCED thing.
-		for(Limb feeler : limbs) {
-//			feeler.setAngle(creature.getAngle());
-			
-			
-			feeler.setAngle(creature.getAngle());
-			feeler.setAngle2(m.ang2);
-			feeler.setAngle3(sineAngle);
-			
-			feeler.draw();
+		for(Limb l : limbs) {
+			l.draw();
 		}
+	}
+	@Override
+	public void update() {
+		sineAngle = sineWave.update();
 	}
 
 	@Override
@@ -49,13 +42,14 @@ public class FeelerManager extends LimbManager {
 		float feelerWidth = width * 0.65f;
 		
 		for(int i=0; i<height; i += step) {
-			Limb feeler = new Feeler(new PVector(0, i), feelerWidth, p.radians(-180)); // when width is 0
+			// when width is 0
+			Limb feeler = new Feeler(creature, new PVector(0, i), feelerWidth, p.radians(-180));
 			
 			// TODO: have to find a way to make this a FORCED thing.
 			limbs.add(feeler);
 			
-			// angle is normal
-			feeler = new Feeler(new PVector(width, i), feelerWidth, 0); // when width is full width.
+			// when width is full width, angle is normal
+			feeler = new Feeler(creature, new PVector(width, i), feelerWidth, 0);
 			limbs.add(feeler);
 			
 		}

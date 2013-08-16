@@ -8,8 +8,8 @@ public abstract class Body extends Part {
 	
 	AABB aabb; // aabb for body. needs: farthest top, right, bottom, left values. how to get these?
 	
-	protected Body(PVector _pos, float _width, float _height) {
-		super(_pos);
+	protected Body(Creature _creature, PVector _pos, float _width, float _height) {
+		super(_creature, _pos);
 		width = _width;
 		height = _height;
 		setAABB(_width, _height);

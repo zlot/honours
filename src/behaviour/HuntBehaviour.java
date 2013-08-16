@@ -54,7 +54,7 @@ public class HuntBehaviour extends Behaviour {
 		// get boundingbox of this creature, scale it up by range factor
 		//c.getBehaviourManager().getBehaviours().
 		
-		AABB tempAABB = c.getBody().getAABB();
+		AABB tempAABB = creature.getBody().getAABB();
 		// extend AABB to huntingAABB
 		// lowerVertex * range, upperVertex * range
 		
@@ -98,7 +98,7 @@ public class HuntBehaviour extends Behaviour {
 	@Override
 	protected void move() {
 		// else, random walk.
-	    PVector pos = c.getBody().getPos();
+	    PVector pos = creature.getBody().getPos();
 		
 		PVector vel = new PVector();
 	    float n = p.noise(noiseInc + nOffset);

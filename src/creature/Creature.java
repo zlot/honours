@@ -4,18 +4,13 @@ import processing.core.PVector;
 import loader.PClass;
 
 public abstract class Creature extends PClass {
-	public float hithere;
 
-	protected PVector pos = null; // pointing to same instance as body pos.
-	protected float angle; // angle in radians.
+	protected PVector pos = null; // will point to same pos instance as body pos.
+	protected float angle; // angle craeture is facing, in radians.
 	protected Body body = null;
 	protected LimbManager limbManager = null;
 	
 	protected BehaviourManager behaviourManager = null;
-	
-	// I think the CREATURE should hold all the behaviours (except limb behaviour)
-	// so the creature has eg move behaviour, 'push-if-collide', 'hunt' behaviour
-	// makes sense from a end user programmer also
 	
 	public Creature() {
 		behaviourManager = new BehaviourManager(this);
@@ -26,8 +21,6 @@ public abstract class Creature extends PClass {
 	protected abstract void addBehaviours();
 	
 	public abstract void draw();
-	
-	
 	
 	protected void addBehaviour(Behaviour b) {
 		behaviourManager.add(b);
@@ -54,7 +47,6 @@ public abstract class Creature extends PClass {
 	public void setAngle(float _angle) {
 		angle = _angle;
 	}
-	
 	
 	public boolean hasLimbManager() {
 		return limbManager == null ? false : true;

@@ -19,8 +19,8 @@ public class CollisionBehaviour extends Behaviour {
 	
 	public CollisionBehaviour(Creature _creature) {
 		super(_creature);
-		pos = c.getBody().getPos();
-		aabb = c.getBody().getAABB();
+		pos = creature.getBody().getPos();
+		aabb = creature.getBody().getAABB();
 		// setup aabbWorldSpace
 		aabbWorldSpace = aabb.clone();
 	}
@@ -41,7 +41,7 @@ public class CollisionBehaviour extends Behaviour {
 		
 		for(int i=0; i<creatures.size(); i++) {
 			Creature c2 = creatures.get(i);
-			if(c == c2) continue; // if comparing same creature, continue with loop
+			if(creature == c2) continue; // if comparing same creature, continue with loop
 			Map<Class<? extends Behaviour>, Behaviour> c2Behaviours = c2.getBehaviourManager().getBehaviours();
 			
 			// Only if c2 has a collisionBehaviour
@@ -63,8 +63,8 @@ public class CollisionBehaviour extends Behaviour {
 	 * Testing purposes only. Make visible the bounding box.
 	 */
 	private void drawBoundingBox() {
-		float width = c.getBody().getWidth();
-		float height = c.getBody().getHeight();
+		float width = creature.getBody().getWidth();
+		float height = creature.getBody().getHeight();
 		
 		p.pushStyle();
 		p.stroke(0, 100, 100);
@@ -78,8 +78,8 @@ public class CollisionBehaviour extends Behaviour {
 	 * Collided bounding boxes event
 	 */
 	private void boundingBoxCollided() {
-		float width = c.getBody().getWidth();
-		float height = c.getBody().getHeight();
+		float width = creature.getBody().getWidth();
+		float height = creature.getBody().getHeight();
 		
 		p.pushStyle();
 		p.fill(0, 100, 100);

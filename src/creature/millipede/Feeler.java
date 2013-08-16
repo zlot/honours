@@ -1,20 +1,19 @@
 package creature.millipede;
 
+import behaviour.MoveBehaviourWithAng;
 import processing.core.PVector;
+import creature.Creature;
 import creature.Limb;
 import toxi.math.waves.*;
 
 public class Feeler extends Limb {
 
-	AbstractWave sineWave; 
 	
-	public Feeler(PVector _pos, float _width, float _ang) {
-		super(_pos);
+	public Feeler(Creature _creature, PVector _pos, float _width, float _angle) {
+		super(_creature, _pos);
 		width = _width;
 		setColor(0);
-		// TODO:: clean up this code!
-		ang = _ang;
-		sineWave = new SineWave();
+		angle = _angle;
 	}
 
 	@Override
@@ -22,9 +21,20 @@ public class Feeler extends Limb {
 		p.pushMatrix();
 		p.translate(pos.x, pos.y);
 		
-		p.rotate(-(ang+p.radians(90))); // rotate back to world axis
-		p.rotate(ang2+ang3+p.radians(90)); // need angle of acc
-//		p.rotate(p.radians(p.random(180)));
+		setAngle(creature.getAngle());
+		p.rotate(-(angle+p.radians(90))); // rotate back to world axis
+		
+		// the following is all temporary. Ideally this will be easy to do direct from creature 
+		// once Ollie's acc/vel request system is in place.
+		MoveBehaviourWithAng m = (MoveBehaviourWithAng) creature.getBehaviourManager().getBehaviours().get(MoveBehaviourWithAng.class);
+		
+		float ang2 = m.ang2;
+		float sineAngle = ((FeelerManager) creature.getLimbManager()).sineAngle;
+		p.rotate(ang2+sineAngle+p.radians(90));
+
+		
+		//		p.rotate(p.radians(p.random(180))); // cool effect.
+		
 		
 		p.pushStyle();
 			p.color(color);
@@ -38,8 +48,6 @@ public class Feeler extends Limb {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

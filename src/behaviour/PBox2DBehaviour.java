@@ -13,7 +13,7 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
 
-public class CollisionBehaviour2 extends Behaviour {
+public class PBox2DBehaviour extends Behaviour {
 	// width and height can be referenced by c.
 	// A static reference to our box2d world
 	static public PBox2D box2d;
@@ -32,7 +32,7 @@ public class CollisionBehaviour2 extends Behaviour {
 
 	private CreatureShape creatureShape;
 	
-	public CollisionBehaviour2(Creature _creature, CreatureShape _creatureShapeEnum) {
+	public PBox2DBehaviour(Creature _creature, CreatureShape _creatureShapeEnum) {
 		super(_creature);
 		creatureShape = _creatureShapeEnum;
 		// create box2D world if not created already (lazy instantiation)
@@ -56,7 +56,7 @@ public class CollisionBehaviour2 extends Behaviour {
 	private void addToBox2dWorld() {
 		BodyDef bd = new BodyDef();
 		bd.type = BodyType.DYNAMIC;
-		bd.position.set(box2d.coordPixelsToWorld(c.getPos()));
+		bd.position.set(box2d.coordPixelsToWorld(creature.getPos()));
 		body = box2d.createBody(bd);
 		
 		Shape shape;
@@ -94,18 +94,18 @@ public class CollisionBehaviour2 extends Behaviour {
 
 	    // add application-specific body data. Box2d body now knows the creature it is attached to.
 	    // can be retrieved by casting body.getUserData() to Creature.
-	    body.setUserData(c);
+	    body.setUserData(creature);
 	}
 	
 	private Shape defineSquareShape() {
-	    float box2dW = box2d.scalarPixelsToWorld(c.getBody().getWidth()/2);
-	    float box2dH = box2d.scalarPixelsToWorld(c.getBody().getHeight()/2);
+	    float box2dW = box2d.scalarPixelsToWorld(creature.getBody().getWidth()/2);
+	    float box2dH = box2d.scalarPixelsToWorld(creature.getBody().getHeight()/2);
 	    PolygonShape polygonShape = new PolygonShape();
 	    polygonShape.setAsBox(box2dW, box2dH);
 	    return polygonShape;
 	}
 	private Shape defineCircleShape() {
-		float box2dR = box2d.scalarPixelsToWorld(c.getBody().getWidth()/2);
+		float box2dR = box2d.scalarPixelsToWorld(creature.getBody().getWidth()/2);
 		CircleShape circleShape = new CircleShape();
 		circleShape.setRadius(box2dR);
 		return circleShape;
@@ -165,11 +165,11 @@ public class CollisionBehaviour2 extends Behaviour {
 	}	
 	
 	static private void collisionAction(Creature c) {
-		CollisionBehaviour2 collisionBehaviourForCreature = (CollisionBehaviour2) c.getBehaviourManager().getBehaviours().get(CollisionBehaviour2.class);
+		PBox2DBehaviour collisionBehaviourForCreature = (PBox2DBehaviour) c.getBehaviourManager().getBehaviours().get(PBox2DBehaviour.class);
 		collisionBehaviourForCreature.collisionAction();
 	}
 	private void collisionAction() {
-		c.getBody().setColor(0xFFBB0000); // hexadecimal colour: 0x[alpha][red][green][blue]
+		creature.getBody().setColor(0xFFBB0000); // hexadecimal colour: 0x[alpha][red][green][blue]
 	}
 	
 	static public void endContact(Contact c) {
@@ -197,9 +197,9 @@ public class CollisionBehaviour2 extends Behaviour {
 		// here we place the position from the physics engine, back to the pos of the creature.
 		Vec2 physicsPos = box2d.getBodyPixelCoord(this.body);
 		float a = body.getAngle(); // already in radians it seems
-		c.setAngle(a);
-		c.getBody().getPos().x = physicsPos.x;
-		c.getBody().getPos().y = physicsPos.y;
+		creature.setAngle(a);
+		creature.getBody().getPos().x = physicsPos.x;
+		creature.getBody().getPos().y = physicsPos.y;
 	}
 
 	@Override

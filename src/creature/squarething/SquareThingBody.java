@@ -2,11 +2,12 @@ package creature.squarething;
 
 import processing.core.PVector;
 import creature.Body;
+import creature.Creature;
 
 public class SquareThingBody extends Body {
 
-	public SquareThingBody(PVector _pos, float _width, float _height) {
-		super(_pos, _width, _height);
+	public SquareThingBody(Creature _creature, PVector _pos, float _width, float _height) {
+		super(_creature, _pos, _width, _height);
 		color = 0xFF00AAAA;
 	}
 

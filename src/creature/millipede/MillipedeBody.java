@@ -2,11 +2,12 @@ package creature.millipede;
 
 import processing.core.PVector;
 import creature.Body;
+import creature.Creature;
 
 public class MillipedeBody extends Body {
 
-	public MillipedeBody(PVector _pos, float _width, float _height) {
-		super(_pos, _width, _height);
+	public MillipedeBody(Creature _creature, PVector _pos, float _width, float _height) {
+		super(_creature, _pos, _width, _height);
 		setColor(0xea00aa22);
 	}
 

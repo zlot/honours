@@ -1,7 +1,7 @@
 package creature.virus;
 
 import behaviour.CollisionBehaviour;
-import behaviour.CollisionBehaviour2;
+import behaviour.PBox2DBehaviour;
 import behaviour.MoveBehaviour;
 import creature.*;
 import processing.core.*;
@@ -28,16 +28,15 @@ public class Virus extends Creature {
 	  
 	  protected void createParts() {
 		  int w = (int) p.random(70, 130);
-		  body = new VirusBody(pos, w);
+		  body = new VirusBody(this, pos, w);
 		  
 		  limbManager = new TentacleManager(this); // w/2 is radius
 	  }
 	  
 	  protected void addBehaviours() {
-//		  if(p.random(1) < 0.75) addBehaviour(new CollisionBehaviour(this));
 		  
-		  addBehaviour(new MoveBehaviour(this));
-//		  addBehaviour(new CollisionBehaviour2(this, CollisionBehaviour2.CreatureShape.CIRCLE));
+//		  addBehaviour(new MoveBehaviour(this));
+		  addBehaviour(new PBox2DBehaviour(this, PBox2DBehaviour.CreatureShape.CIRCLE));
 	  }
 	  
 	}

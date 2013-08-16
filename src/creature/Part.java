@@ -5,41 +5,32 @@ import processing.core.*;
 
 public abstract class Part extends PClass {
 
+	protected Creature creature; // reference to creature instance that this part belongs to.
 	protected PVector pos;
-	protected Behaviour behaviour; // MUST this exist for each part?
-	// also, what if we want more behaviours per part?
-	// e.g. a 'push-if-collide' behaviour, + a move behaviour, + a hunt behaviour
 	
 	protected int color; // hexadecimal colour: 0x[alpha][red][green][blue]
 	
-	Part(PVector _pos) {
+	Part(Creature _creature, PVector _pos) {
+		creature = _creature;
 		pos = _pos;
 	}
 	
-	
 	public abstract void draw();
-	
-	/**
-	 * Override if necessary for more complex behaviours that
-	 * are intertwined with drawing.
-	 */
-	//TODO:: remove this? behaviours are updated by behaviourmanager?
-//	public void update() {
-//		getBehaviour().update();
-//	}
-	
-	// hmm how to make this FORCIBLY set by anything that extends Part?
-	public void setBehaviour(Behaviour _b) {
-		behaviour = _b;
-	}
-	
-	public Behaviour getBehaviour() {
-		return behaviour;
-	}
 	
 	public PVector getPos() {
 		return pos;
 	}
 	
 	public abstract void setColor(int color);
+
+	public Creature getCreature() {
+		return creature;
+	}
+
+	/**
+	 * Set by part creator. Can't be set at runtime by anything.
+	 */
+	protected void setCreature(Creature _creature) {
+		creature = _creature;
+	}
 }

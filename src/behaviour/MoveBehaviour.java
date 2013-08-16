@@ -21,7 +21,7 @@ public class MoveBehaviour extends Behaviour {
 	
 	// noise-walk the pos
 	public void move() {
-	    PVector pos = c.getBody().getPos();
+	    PVector pos = creature.getBody().getPos();
 		
 		PVector vel = new PVector();
 	    float n = p.noise(noiseInc + nOffset);

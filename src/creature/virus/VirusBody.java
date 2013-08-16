@@ -3,11 +3,12 @@ package creature.virus;
 import behaviour.MoveBehaviour;
 import processing.core.*;
 import creature.Body;
+import creature.Creature;
 
 public class VirusBody extends Body {
 	
-	public VirusBody(PVector _pos, int _width) {
-		super(_pos, _width, _width);
+	public VirusBody(Creature _creature, PVector _pos, int _width) {
+		super(_creature, _pos, _width, _width);
 		color = 0xFF007744;
 	}
 

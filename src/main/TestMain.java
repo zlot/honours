@@ -26,7 +26,7 @@ public class TestMain extends PApplet {
 		// Abstract PClass setup. Necessary!
 		PClass.insertPApplet(this); // send instance of this PApplet to abstract ProcessingClass
 		
-		PClass.setWidthAndHeight(width, height);
+		PClass.setWidthAndHeight(width, height, 50);
 
 		width = 400;
 		height = 400;

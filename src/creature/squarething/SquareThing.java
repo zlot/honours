@@ -1,7 +1,7 @@
 package creature.squarething;
 
 import processing.core.PVector;
-import behaviour.CollisionBehaviour2;
+import behaviour.PBox2DBehaviour;
 import main.World;
 import creature.Creature;
 
@@ -27,12 +27,12 @@ public class SquareThing extends Creature {
 	protected void createParts() {
 		float r = p.random(15, 45);
 		float r2 = p.random(15, 45);
-		body = new SquareThingBody(pos, r, r);
+		body = new SquareThingBody(this, pos, r, r);
 	}
 
 	@Override
 	protected void addBehaviours() {
-		addBehaviour(new CollisionBehaviour2(this, CollisionBehaviour2.CreatureShape.SQUARE));
+		addBehaviour(new PBox2DBehaviour(this, PBox2DBehaviour.CreatureShape.SQUARE));
 	}
 
 }

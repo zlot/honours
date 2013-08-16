@@ -31,7 +31,7 @@ public class Main extends PApplet {
 		PClass.insertPApplet(this); // send instance of this PApplet to abstract ProcessingClass
 		
 		world = new World();
-		PClass.setWidthAndHeight(width, height);
+		PClass.setWidthAndHeight(width, height, 150); // last arg is screen edge buffer value in pixels
 
 		world.setup();
 		

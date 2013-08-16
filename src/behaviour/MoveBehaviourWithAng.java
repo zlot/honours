@@ -4,6 +4,7 @@ import creature.Behaviour;
 import creature.Creature;
 import processing.core.*;
 import loader.PClass;
+import main.World;
 
 @SuppressWarnings("static-access")
 public class MoveBehaviourWithAng extends Behaviour {
@@ -11,7 +12,7 @@ public class MoveBehaviourWithAng extends Behaviour {
 	float nOffset; // special offset to make virus movement unique.
 	
 	PVector acc, vel;
-	float ang; // angle that creature is moving.
+	private float ang; // angle that creature is moving.
 	
 	public MoveBehaviourWithAng(Creature  _creature) {
 		super(_creature);
@@ -28,17 +29,17 @@ public class MoveBehaviourWithAng extends Behaviour {
 	
 	// noise-walk the pos
 	public void move() {
-	    PVector pos = c.getBody().getPos();
+	    PVector pos = creature.getBody().getPos();
 		
 	    float n = p.noise(noiseInc + nOffset);
 	    float nMapped = p.map(n, 0, 1, -mmStep, mmStep); // for x
 	    acc.x = nMapped;
 	    
-	    n = p.noise(noiseInc + 3); // 3 is arbitrary to have it different to y
+	    n = p.noise(noiseInc + nOffset + 13); // 13 is arbitrary to have it different to y
 	    nMapped = p.map(n, 0, 1, -mmStep, mmStep); // for y
 	    acc.y = nMapped;
 	    
-	    noiseInc += 0.006;
+	    noiseInc += 0.002;
 
 	    
 	    // get angle of pos to vel
@@ -51,19 +52,28 @@ public class MoveBehaviourWithAng extends Behaviour {
 	    
 	    
 	    // set creature angle
-	    c.setAngle(ang);
+	    creature.setAngle(ang);
 	    
 	    vel.add(acc);
 	    pos.add(vel);
-	    pos.x = p.constrain(pos.x, 0, getScreenWidth());
-	    pos.y = p.constrain(pos.y, 0, getScreenHeight());
+
+	    if(pos.x > World.getScreenWidthWithBuffer()) {
+	      pos.x = 0;
+	    } else if (pos.x < -World.getBuffer()) {
+	      pos.x = World.getScreenWidthWithBuffer();
+	    }
+	    
+	    if(pos.y > World.getScreenHeightWithBuffer()) {
+	      pos.y = 0;
+	    } else if (pos.y < -World.getBuffer()) {
+	      pos.y = World.getScreenHeightWithBuffer();
+	    }
+	    
+//	    p.println("acc.x: " + acc.x + " acc.y: " + acc.y);
+//	    p.println("vel.x: " + vel.x + " vel.y: " + vel.y);
+//	    p.println("pos.x: " + pos.x + " pos.y: " + pos.y);
     }
 
-	public float getAngle() {
-		return ang;
-	}
-	
-	
 	@Override
 	public void update() {
 		move();

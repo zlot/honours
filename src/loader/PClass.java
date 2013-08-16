@@ -13,15 +13,17 @@ public abstract class PClass {
 	protected static PApplet p;
 	private static int width;
 	private static int height;
+	private static int buffer; // buffer for edges of screen.
 	
 	public static boolean insertPApplet(PApplet _p) {
 		if(p == null)
 			p = _p;
 		return true;
 	}
-	public static void setWidthAndHeight(int w, int h) {
+	public static void setWidthAndHeight(int w, int h, int _screenEdgeBuffer) {
 		width = w;
 		height = h;
+		buffer = _screenEdgeBuffer;
 	}
 	
 	public static float getScreenWidth() {
@@ -29,5 +31,14 @@ public abstract class PClass {
 	}
 	public static float getScreenHeight() {
 		return height;
+	}
+	public static float getScreenWidthWithBuffer() {
+		return width + buffer;
+	}
+	public static float getScreenHeightWithBuffer() {
+		return height + buffer;
+	}
+	public static float getBuffer() {
+		return buffer;
 	}
 }
